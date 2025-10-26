@@ -14,14 +14,13 @@ public class GameLogic{
     public GameLogic(ArrayList<String> playerNames) {
 
         //creating an arrayList of players
-        players = new ArrayList<>();
+        players = new LinkedList<>();
 
 
-        //adding the elements of the player names to the list of players
-        for  (int i = 0; i < playerNames.size(); i++){
-            players.add(new Player(playerNames.get(i)));
+        //adding players to doublylinkedlist
 
-        }
+
+
 
         discardPile = new LinkedList<>();
 
