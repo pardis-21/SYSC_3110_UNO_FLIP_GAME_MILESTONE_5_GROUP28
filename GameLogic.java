@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class GameLogic {
+public class GameLogic{
     private ArrayList<Player> players;
     private ArrayList<Card> cards;
     private ArrayList<Card> hand;
@@ -11,8 +11,16 @@ public class GameLogic {
     private int score;
 
 
-    public GameLogic() {
+    public GameLogic(ArrayList<String> playerNames) {
+
+        //creating an arrayList of players
         players = new ArrayList<>();
+
+        for  (int i = 0; i < playerNames.size(); i++){
+            players.add(new Player(playerNames.get(i)));
+
+        }
+
         cards = new ArrayList<>();
         hand = new ArrayList<>();
         discardPile = new ArrayList<>();
@@ -21,6 +29,7 @@ public class GameLogic {
         direction = true; //clockwise direction
         score = 0;
     }
+
 
 
 }
