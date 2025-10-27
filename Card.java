@@ -48,13 +48,14 @@ public class Card {
         return cardColour;
     }
 
+
     //checks if this card can be played on top of another
     public boolean playCardOnAnother(Card topCard){
         // wild cards can be on top of anything
         if(this.cardColour == Colour.RAINBOW){
                 return true;
         }
-        // if its not a wild card then the card being played must match the card in the discard pile by colour or type
+        // if it's not a wild card then the card being played must match the card in the discard pile by colour or type
         else if(this.cardColour == topCard.cardColour || this.cardType == topCard.cardType){
             return true;
         }
