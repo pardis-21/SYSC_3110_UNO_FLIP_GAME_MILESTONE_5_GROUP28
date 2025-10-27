@@ -20,22 +20,22 @@ public class Player {
         return hand;
     }
     // show players hand in the console
-    public void showHand(){
-        System.out.println("\n" + name + "'s hand:");
+    public String showHand(){
         for(int i =0; i< hand.size(); i++){
             System.out.println((i + 1) + "." + hand.get(i));
         }
+        return " ";
     }
 
 
-    public void drawCard(){
+    //public void drawCard(){
         //the pile to be infinite
-        Card newCard = new Card();
-        hand.add(newCard);
-        System.out.println(name + "drew a card: " + newCard);
+        //GameLogic gamelogic = new GameLogic();
+       // hand.add(GameLogic.getTopCard());
+       //System.out.println(name + "drew a card: " + newCard);
 
 
-    }
+    //}
 
     //choosing the card to play
     public boolean playCard(int index, Card topCard, ArrayList<Card> discardPile){

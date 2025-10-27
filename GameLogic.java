@@ -66,7 +66,7 @@ public class GameLogic{
 
     }
 
-    private Card getTopCard(){
+    public Card getTopCard(){
         return discardPile.get(0);
     }
 
@@ -78,7 +78,7 @@ public class GameLogic{
 
     private void addCardToPlayerHand(){
         for (Player player : playerOrder.getAllPlayersToArrayList()){
-            player.drawCard();
+            //player.drawCard();
         }
 
 
@@ -133,8 +133,22 @@ public class GameLogic{
     }
 
     public void playGame() {
+        Scanner userInput = new Scanner(System.in);
+
         System.out.println("These are your cards: ");
-        System.out.println(playerOrder.getCurrentPlayer().getHand());
+
+        System.out.println(playerOrder.getCurrentPlayer().showHand());
+        System.out.println("What is the index of the card you would like to play? (Or enter 0 to draw a card) ");
+        int choice = userInput.nextInt();
+
+        if(choice == 0){
+          playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+          drawPile.remove(0);
+        }
+        playerOrder.getCurrentPlayer().showHand();
+
+
+
 
 
 
