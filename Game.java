@@ -38,6 +38,7 @@ public class Game {
             GameLogic gameLogic = new GameLogic(players);
             gameLogic.startGame();
             gameLogic.confirmPlayerAtScreen();
+            gameLogic.playGame();
 
 
 
