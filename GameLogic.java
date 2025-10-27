@@ -69,6 +69,10 @@ public class GameLogic{
         //starting round
         dealCardsBeginning();
         System.out.println();
+        discardPile.get(0);
+        while(discardPile.get(0).getCardType() == Card.Type.DRAW_ONE || discardPile.get(0).getCardType() == Card.Type.WILD_DRAW2 || discardPile.get(0).getCardType() == Card.Type.WILD){
+            discardPile.get(0);
+        }
         System.out.println("Top Card: " + discardPile.get(0));
         System.out.println();
 
@@ -171,6 +175,29 @@ public class GameLogic{
                             }
                         }
                         else if (card.getCardType().equals(Card.Type.WILD_DRAW2)) {
+                            System.out.println("WIlD DRAW2 card has been played. Enter the colour that will be played next: (RED, GREEN, BLUE, YELLOW)");
+                            userInput.nextLine();
+                            String colour = userInput.nextLine();
+                            flag = true;
+
+                            while (flag) {
+                                if (!colour.equals("RED") && !colour.equals("GREEN") && !colour.equals("BLUE") && !colour.equals("YELLOW")) {
+                                    System.out.println("Invalid colour. Please try again");
+                                } else {
+                                    card.setCardColour(colour);
+                                    flag = false;
+                                }
+                            }
+
+                            playerTurn();
+                            playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                            System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn the following card: " + drawPile.get(0).getCardColour() + " " + drawPile.get(0).getCardType());
+                            drawPile.remove(0);
+
+                            playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                            System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn the following card: " + drawPile.get(0).getCardColour() + " " + drawPile.get(0).getCardType());
+                            drawPile.remove(0);
+
 
                         }
 

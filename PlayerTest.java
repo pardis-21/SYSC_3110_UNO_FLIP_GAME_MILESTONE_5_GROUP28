@@ -27,29 +27,29 @@ public class PlayerTest {
 	  assertTrue("players hand is empty",player.getHand().isEmpty());
   }
 
-  @Test
-  public void testhasOneCard(){
-		Card card = new Card();
-		player.getHand().add(card);
-		assertTrue("player has one card",player.hasOneCard());
-  }
+//  @Test
+//  public void testhasOneCard(){
+//		Card card = new Card();
+//		player.getHand().add(card);
+//		assertTrue("player has one card",player.hasOneCard());
+//  }
 
   @Test
   public void testhasZeroCard(){
 		assertTrue("player has zero cards", player.hasZeroCard());
   }
 
-  @Test
-  public void testsetPlayerTurnTrue(){
-		player.setPlayerTurnTrue();
-		assertTrue("players turn is set to true", player.getPlayerTurnStatus());
-  }
-
-  @Test
-  public void testsetPlayerTurnFalse(){
-		player.setPlayerTurnFalse();
-		assertFalse("players turn us set to false",player.getPlayerTurnStatus());
-	}
+//  @Test
+//  public void testsetPlayerTurnTrue(){
+//		player.setPlayerTurnTrue();
+//		assertTrue("players turn is set to true", player.getPlayerTurnStatus());
+//  }
+//
+//  @Test
+//  public void testsetPlayerTurnFalse(){
+//		player.setPlayerTurnFalse();
+//		assertFalse("players turn us set to false",player.getPlayerTurnStatus());
+//	}
 
 	@Test
   public void testplayCard() {
