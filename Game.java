@@ -12,17 +12,25 @@ public class Game {
         while (true) {
             System.out.println("Welcome to UNO");
             System.out.println("---------------------------------------");
-            System.out.println("Enter the number of Players (2-4): ");
+
+            while (true) {
+                System.out.print("Enter the number of Players (2–4): ");
 
                 try {
                     numPlayers = userInput.nextInt();
                     userInput.nextLine(); // clear the buffer
 
+                    if (numPlayers < 2 || numPlayers > 4) {
+                        System.out.println("Invalid number of players! Please enter a number between 2 and 4.\n");
+                    } else {
+                        break; // valid number, exit inner loop
+                    }
+
                 } catch (InputMismatchException e) {
                     System.out.println("Invalid input! Please enter a number between 2 and 4.\n");
                     userInput.nextLine(); // clear the invalid input
-                    continue;
                 }
+            }
 
 
         PlayerOrder playerOrder = new PlayerOrder();

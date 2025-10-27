@@ -162,7 +162,7 @@ public class GameLogic{
                         else if (card.getCardType().equals(Card.Type.WILD)) {
                             System.out.println("WIlD card has been played. Enter the colour that will be played next: (RED, GREEN, BLUE, YELLOW)");
                             userInput.nextLine();
-                            String colour = userInput.nextLine();
+                            String colour = userInput.nextLine().toUpperCase();
                             flag = true;
 
                             while (flag) {
@@ -177,7 +177,7 @@ public class GameLogic{
                         else if (card.getCardType().equals(Card.Type.WILD_DRAW2)) {
                             System.out.println("WIlD DRAW2 card has been played. Enter the colour that will be played next: (RED, GREEN, BLUE, YELLOW)");
                             userInput.nextLine();
-                            String colour = userInput.nextLine();
+                            String colour = userInput.nextLine().toUpperCase();
                             flag = true;
 
                             while (flag) {
