@@ -47,7 +47,7 @@ public class PlayerOrder {
             lastPlayer.next = firstPlayer;
             lastPlayer.prev = lastPlayer;
 
-            currentPlayer = firstPlayer;
+            currentPlayer = tempPlayerNode;
         }
         //already a node in CDLL
         else {
@@ -79,14 +79,13 @@ public class PlayerOrder {
     public ArrayList<Player> getAllPlayersToArrayList() {
         ArrayList<Player> allPlayers = new ArrayList<>();
 
-        playerNode arrayPlayer = firstPlayer;
-        if (arrayPlayer == null) {
+        if (currentPlayer == null) {
             return allPlayers;
 
         }
         for (int i = 0; i < numPlayers; i++){
-            allPlayers.add(arrayPlayer.pName);
-            arrayPlayer = arrayPlayer.next;
+            allPlayers.add(currentPlayer.pName);
+            currentPlayer = currentPlayer.next;
         }
         return allPlayers;
     }

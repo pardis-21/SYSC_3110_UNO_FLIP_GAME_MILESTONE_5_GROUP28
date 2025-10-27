@@ -7,7 +7,7 @@ public class Game {
         int numPlayers = 0;
 
         while (true) {
-            System.out.println("Welcome to UNO FLIP");
+            System.out.println("Welcome to UNO");
             System.out.println("---------------------------------------");
             System.out.println("Enter the number of Players (2-4): ");
             numPlayers = userInput.nextInt();
@@ -33,12 +33,9 @@ public class Game {
                 }
             }
 
-
             //start game
             GameLogic gameLogic = new GameLogic(players);
-            gameLogic.startGame();
-            gameLogic.confirmPlayerAtScreen();
-            gameLogic.playGame();
+            gameLogic.playUNOGame();
 
 
 
