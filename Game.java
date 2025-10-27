@@ -35,7 +35,9 @@ public class Game {
 
             //start game
             GameLogic gameLogic = new GameLogic(players);
+            gameLogic.setPlayerOrder(playerOrder);
             gameLogic.playUNOGame();
+
 
 
 

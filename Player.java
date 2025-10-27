@@ -4,7 +4,6 @@ import java.util.ArrayList;
 public class Player {
     private final String name;
     private final ArrayList<Card> hand; //cards currently in the players hand
-    private boolean playerTurn;
 
     public Player(String name){
         this.name = name;
@@ -69,14 +68,6 @@ public class Player {
     }
 
 
-    //if the player has one card left say uno if they have no cards left they win
-    public boolean hasOneCard(){
-        if(hand.size() == 1){
-            return true;
-        }
-        return false;
-    }
-
     public boolean hasZeroCard(){
         if(hand.isEmpty()){
             return true;
@@ -84,15 +75,6 @@ public class Player {
         return false;
     }
 
-    public void setPlayerTurnTrue() {
-        playerTurn = true;
-    }
-    public void setPlayerTurnFalse() {
-        playerTurn = false;
-    }
 
-    public boolean getPlayerTurnStatus(){
-        return playerTurn;
-    }
 
 }

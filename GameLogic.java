@@ -56,7 +56,7 @@ public class GameLogic{
 
             }
         }
-        discardPile.addFirst(drawPile.get(0));
+        discardPile.add(0,drawPile.get(0));
         drawPile.remove(0);
 
     }
@@ -65,28 +65,21 @@ public class GameLogic{
         return discardPile.get(0);
     }
 
-    private void playerNames(){
-        for (Player player : playerOrder.getAllPlayersToArrayList()){
-            System.out.println(player.getName());
-        }
-
-    }
-
     public void startGame() {
         //starting round
         dealCardsBeginning();
         System.out.println();
         System.out.println("Top Card: " + discardPile.get(0));
         System.out.println();
-        System.out.println("Player: " + playerOrder.getCurrentPlayer().getName() + "'s turn");
 
     }
 
     public void confirmPlayerAtScreen(){
         Scanner userInput= new Scanner(System.in);
-
+        System.out.println("Player: " + playerOrder.getCurrentPlayer().getName() + "'s turn\n");
         Boolean flag = true;
         while (flag) {
+
             System.out.println("Is player: " + playerOrder.getCurrentPlayer().getName() + " at the screen?");
             String userChoice = userInput.nextLine();
 
@@ -116,106 +109,97 @@ public class GameLogic{
         while (flag) {
             System.out.println(playerOrder.getCurrentPlayer().showHand());
             System.out.println(playerOrder.getCurrentPlayer().getName()  + ": What is the index of the card you would like to play? (Or enter 0 to draw a card) ");
-            int choice = userInput.nextInt();
-
-            if (choice == 0) {
-                playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
-                System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn the following card: " + drawPile.get(0).getCardColour() + " " + drawPile.get(0).getCardType());
-                drawPile.remove(0);
-                playerTurn();
-                flag = false;
-            }
-            //check if input is valid but not 0
-            else if (choice > 0 && choice <= playerOrder.getCurrentPlayer().getHand().size()) {
-                Card card = playerOrder.getCurrentPlayer().getHand().get(choice - 1);
-
-                if (card.playCardOnAnother(getTopCard())) {
-
-                    if (card.getCardType().equals(Card.Type.ONE)){
-                        discardPile.addFirst(card);
-
-                        playerOrder.getCurrentPlayer().getHand().remove(card);
-                    }
-                    if (card.getCardType().equals(Card.Type.TWO)){
-                        discardPile.addFirst(card);
-                        playerOrder.getCurrentPlayer().getHand().remove(card);
-                    }
-                    if (card.getCardType().equals(Card.Type.THREE)){
-                        discardPile.addFirst(card);
-                        playerOrder.getCurrentPlayer().getHand().remove(card);
-                    }
-                    if (card.getCardType().equals(Card.Type.FOUR)){
-                        discardPile.addFirst(card);
-                        playerOrder.getCurrentPlayer().getHand().remove(card);
-
-                    }
-                    if (card.getCardType().equals(Card.Type.FIVE)){
-                        discardPile.addFirst(card);
-                        playerOrder.getCurrentPlayer().getHand().remove(card);
-                    }
-                    if (card.getCardType().equals(Card.Type.SIX)){
-                        discardPile.addFirst(card);
-                        playerOrder.getCurrentPlayer().getHand().remove(card);
-                    }
-                    if (card.getCardType().equals(Card.Type.SEVEN)){
-                        discardPile.addFirst(card);
-                        playerOrder.getCurrentPlayer().getHand().remove(card);
-                    }
-                    if (card.getCardType().equals(Card.Type.EIGHT)){
-                        discardPile.addFirst(card);
-                        playerOrder.getCurrentPlayer().getHand().remove(card);
-                    }
-                    if (card.getCardType().equals(Card.Type.NINE)){
-                        discardPile.addFirst(card);
-                        playerOrder.getCurrentPlayer().getHand().remove(card);
-                    }
 
 
-                    if (card.getCardType().equals(Card.Type.REVERSE)){
-                        direction = !direction;
-                        discardPile.addFirst(card);
-                        playerOrder.getCurrentPlayer().getHand().remove(card);
+            try {
+               int choice = userInput.nextInt();
 
-
-                        //pls implement more
-
-                    }
-                    else if (card.getCardType().equals(Card.Type.SKIP)) {
-                        //if direction is CW
-                        if (direction) {
-                            playerOrder.nextPlayerClockwise();
-
-                        }
-                        //if direction is CCW
-                        else {
-                            playerOrder.nextPlayerCounterClockwise();
-                        }
-
-                    }
-
-                    discardPile.addFirst(card);
-                    System.out.println(playerOrder.getCurrentPlayer().getName() + " has played the following card: " + card.getCardColour() + " " + card.getCardType());
-                    playerOrder.getCurrentPlayer().getHand().remove(card);
+                //if the player wants to draw a card
+                if (choice == 0) {
+                    playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                    System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn the following card: " + drawPile.get(0).getCardColour() + " " + drawPile.get(0).getCardType());
+                    drawPile.remove(0);
                     playerTurn();
                     flag = false;
                 }
+                //check if input is valid but not 0
+                else if (choice > 0 && choice <= playerOrder.getCurrentPlayer().getHand().size()) {
+                    Card card = playerOrder.getCurrentPlayer().getHand().get(choice - 1);
 
-                else {
-                    System.out.println("!!!Card cannot be played. Choose another or enter 0 to draw a card!!! ");
-                    System.out.println();
-                    drawPile.get(0);
+                    if (card.playCardOnAnother(getTopCard())) {
+                        if (card.getCardType().equals(Card.Type.REVERSE)) {
+                            direction = !direction;
+                            discardPile.add(0, card);
+                            playerOrder.getCurrentPlayer().getHand().remove(card);
+                            System.out.println(playerOrder.getCurrentPlayer().getName() + " has played the following card: " + card.getCardColour() + " " + card.getCardType());
+                            System.out.println("Order of game has been reversed\n");
+                            //System.out.println("Player: " + playerOrder.getCurrentPlayer().getName() + "'s turn");
+
+
+                        }
+                        else if (card.getCardType().equals(Card.Type.SKIP)) {
+
+                            System.out.println(playerOrder.getCurrentPlayer().getName() + " has played the following card: " + card.getCardColour() + " " + card.getCardType());
+
+                            //if direction is CW
+                            if (direction) {
+                                playerOrder.nextPlayerClockwise();
+                                System.out.println( playerOrder.getCurrentPlayer().getName() + "'s turn has been skipped\n");
+
+                            }
+                            //if direction is CCW
+                            else {
+                                playerOrder.nextPlayerCounterClockwise();
+                                System.out.println( playerOrder.getCurrentPlayer().getName() + "'s turn has been skipped\n");
+                            }
+                            playerOrder.getCurrentPlayer().getHand().remove(card);
+
+                        }
+                        else if (card.getCardType().equals(Card.Type.WILD)) {
+
+
+                        }
+                        else if (card.getCardType().equals(Card.Type.WILD_DRAW2)) {
+
+                        }
+
+                        else if (card.getCardType().equals(Card.Type.DRAW_ONE)) {
+                            System.out.println(playerOrder.getCurrentPlayer().getName() + " has played the following card: " + card.getCardColour() + " " + card.getCardType());
+                            playerTurn();
+                            playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                            System.out.println(playerOrder.getCurrentPlayer().getName() + " has drawn the following card: " + drawPile.get(0).getCardColour() + " " + drawPile.get(0).getCardType());
+                            drawPile.remove(0);
+
+
+                        }
+                        else{
+                            System.out.println( playerOrder.getCurrentPlayer().getName() + " has played the following card: " +  card.getCardColour() + " " + card.getCardType());
+                            playerOrder.getCurrentPlayer().getHand().remove(card);
+                        }
+
+                        discardPile.add(0, card);
+                        playerTurn();
+                        flag = false;
+
+                    }
+                    else {
+                        System.out.println("!!!Card cannot be played. Choose another or enter 0 to draw a card!!! ");
+                        System.out.println();
+                    }
+                } else {
+                    System.out.println("Invalid input. Try again");
                 }
             }
-            else {
+            catch(InputMismatchException e){
                 System.out.println("Invalid input. Try again");
+                userInput.nextLine();
             }
-            drawPile.get(0);
         }
+
     }
 
     public void playerTurn() {
         //checking the players turn status
-
         if (direction) {
             playerOrder.nextPlayerClockwise();
         }
@@ -223,15 +207,19 @@ public class GameLogic{
             playerOrder.nextPlayerCounterClockwise();
         }
     }
+    public void setPlayerOrder(PlayerOrder playerOrder){
+        this.playerOrder = playerOrder;
+    }
     public void playUNOGame(){
 
-        boolean flag = true;
-        while(flag){
-            startGame();
-            confirmPlayerAtScreen();
-            playGame();
-            //playerTurn();
 
+        boolean flag = true;
+
+        startGame();
+        while(flag){
+            confirmPlayerAtScreen();
+            System.out.println("Top card: " + getTopCard() + "\n");
+            playGame();
     }
         }
 
