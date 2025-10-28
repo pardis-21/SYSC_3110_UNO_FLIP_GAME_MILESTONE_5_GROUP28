@@ -4,6 +4,9 @@ import java.util.Random;
 /**
  * Represents a card in UNO, with a type and colour.
  * Each card can be played based on matching colour or type rules.
+ * @Author Anvita Ala 101301514
+ * @Author Charis Nobossi 101297742
+ * @Author Pulcherie Mbaye 101302394
  */
 public class Card {
     private static final Random random = new Random();

@@ -5,6 +5,10 @@ import java.util.Scanner;
  * The GameLogic class manages the main gameplay flow for an UNO-like card game.
  * It controls player turns, card drawing, discarding, special card effects,
  * and scoring between multiple players.
+ * @Author Charis Nobossi 101297742
+ * @Author Pardis Ehsani
+ * @Author Anvita Ala
+ * @Author Pulcherie Mbaye 101302394
  */
 public class GameLogic{
     private PlayerOrder playerOrder;
