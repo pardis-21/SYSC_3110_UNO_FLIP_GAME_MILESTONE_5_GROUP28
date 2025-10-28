@@ -9,7 +9,7 @@ public class GameLogic{
     private final ArrayList<Card> drawPile;
     //private ArrayList<Card> flipPile; for future use
     private boolean direction; //clockwise or counterclockwise
-    private final int score;
+    private final Map<Player, Integer> scores = new HashMap<>();
     private static final int SEVEN = 7;
 
 
@@ -26,6 +26,7 @@ public class GameLogic{
             playerOrder.addPlayer(player);
         }
 
+        initScores();
 
         discardPile = new ArrayList<>();
 
@@ -39,7 +40,12 @@ public class GameLogic{
 
         //assuming by UNO rules that all players have same age and starting from CW direction
         direction = true; //clockwise direction
-        score = 0;
+    }
+
+    private void initScores() {
+        for (Player player : playerOrder.getAllPlayersToArrayList()) {
+            scores.put(player, 0);
+        }
     }
 
     //at the beginning of the game, each player is dealt 7 cards
@@ -234,6 +240,11 @@ public class GameLogic{
                         }
 
                         discardPile.add(0, card);
+
+                        if(playerOrder.getCurrentPlayer().getHand().isEmpty()){
+                            awardRoundPointsTo(playerOrder.getCurrentPlayer());
+                        }
+
                         playerTurn();
                         flag = false;
 
@@ -252,6 +263,20 @@ public class GameLogic{
             }
         }
 
+    }
+
+    private void awardRoundPointsTo(Player winner) {
+        int pointsgained = 0;
+        for (Player player : playerOrder.getAllPlayersToArrayList()) {
+            if (player != winner) {
+                pointsgained += Card.pointsForHand(player.getHand());
+            }
+        }
+
+        // Updating the winner's score
+        scores.put(winner, scores.get(winner) + pointsgained);
+
+        System.out.println(winner.getName() + " earns " + pointsgained + " points! Total = " + scores.get(winner));
     }
 
     public void playerTurn() {

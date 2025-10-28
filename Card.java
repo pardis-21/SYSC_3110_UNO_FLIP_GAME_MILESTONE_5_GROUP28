@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Random;
 
 public class Card {
@@ -64,6 +65,47 @@ public class Card {
         }
         return false;
     }
+
+    public static int pointsForCard(Card c) {
+        switch (c.getCardType()) {
+            case ZERO:
+                return 0;
+            case ONE:
+                return 1;
+            case TWO:
+                return 2;
+            case THREE:
+                return 3;
+            case FOUR:
+                return 4;
+            case FIVE:
+                return 5;
+            case SIX:
+                return 6;
+            case SEVEN:
+                return 7;
+            case EIGHT:
+                return 8;
+            case NINE:
+                return 9;
+
+            case REVERSE, SKIP, DRAW_ONE:
+                return 20;
+
+            case WILD, WILD_DRAW2:
+                return 50;
+        }
+        return 0;
+    }
+
+
+    public static int pointsForHand(List<Card> hand) {
+        int sum = 0;
+        for (Card c : hand) sum += pointsForCard(c);
+        return sum;
+    }
+
+
 
     @Override
     public String toString() {
