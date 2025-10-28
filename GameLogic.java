@@ -1,7 +1,11 @@
 import java.util.*;
 import java.util.Scanner;
 
-
+/**
+ * The GameLogic class manages the main gameplay flow for an UNO-like card game.
+ * It controls player turns, card drawing, discarding, special card effects,
+ * and scoring between multiple players.
+ */
 public class GameLogic{
     private PlayerOrder playerOrder;
     private ArrayList<Card> cards;
@@ -14,6 +18,12 @@ public class GameLogic{
     private static final int SEVEN = 7;
 
 
+    /**
+     * Constructs a new GameLogic instance and initializes players, draw pile,
+     * and default direction.
+     *
+     * @param playerNames a list of player names participating in the game
+     */
     public GameLogic(ArrayList<String> playerNames) {
 
         //creating an arrayList of players
@@ -43,12 +53,19 @@ public class GameLogic{
         direction = true; //clockwise direction
     }
 
+    /**
+     * Initializes the score map with each player's score set to 0.
+     */
     private void initScores() {
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
             scores.put(player, 0);
         }
     }
 
+    /**
+     * Deals seven cards to each player at the start of the game and ensures
+     * the first discard card is not a special card.
+     */
     //at the beginning of the game, each player is dealt 7 cards
     private void dealCardsBeginning(){
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
@@ -79,9 +96,19 @@ public class GameLogic{
 
     }
 
+    /**
+     * Returns the top card from the discard pile.
+     *
+     * @return the topCard currently on the discard pile
+     */
+
     public Card getTopCard(){
         return discardPile.get(0);
     }
+
+    /**
+     * Starts a new round by dealing cards and displaying the initial top card.
+     */
 
     public void startGame() {
         //starting round
@@ -93,6 +120,10 @@ public class GameLogic{
 
     }
 
+    /**
+     * Confirms that the current player is ready to take their turn.
+     * Prompts the user to verify that the correct player is at the screen.
+     */
     public void confirmPlayerAtScreen(){
         Scanner userInput= new Scanner(System.in);
 
@@ -120,6 +151,14 @@ public class GameLogic{
 
         }
     }
+
+    /**
+     * Handles the gameplay for a single player's turn, including:
+     * - Drawing a card
+     * - Playing a valid card
+     * - Applying special card effects
+     * - Checking for round completion
+     */
 
     public void playGame() {
         Scanner userInput = new Scanner(System.in);
@@ -268,6 +307,12 @@ public class GameLogic{
 
     }
 
+    /**
+     * Awards points to the player who wins a round, based on other players' remaining cards.
+     *
+     * @param winner the player who won the current round
+     */
+
     private void awardRoundPointsTo(Player winner) {
         int pointsgained = 0;
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
@@ -282,6 +327,12 @@ public class GameLogic{
 
     }
 
+    /**
+     * Returns the player who has reached or exceeded the target score.
+     *
+     * @param target the score threshold required to win
+     * @return the winning player, or null if no one has reached the target yet
+     */
     public Player getMatchWinner(int target) {
         for (Player p : playerOrder.getAllPlayersToArrayList()) {
             Integer s = scores.get(p);
@@ -292,6 +343,9 @@ public class GameLogic{
         return null;
     }
 
+    /**
+     * Advances the game to the next player's turn based on current direction.
+     */
     public void playerTurn() {
         //checking the players turn status
         if (direction) {
@@ -301,12 +355,23 @@ public class GameLogic{
             playerOrder.nextPlayerCounterClockwise();
         }
     }
+
+    /**
+     * Sets the player order and ensures all players exist in the score map.
+     *
+     * @param playerOrder the plyerOrder instance managing turn order
+     */
     public void setPlayerOrder(PlayerOrder playerOrder){
         this.playerOrder = playerOrder;
         for (Player p : playerOrder.getAllPlayersToArrayList()) {
             scores.putIfAbsent(p, 0);
         }
     }
+
+    /**
+     * Runs a full UNO game session, starting rounds and continuing until
+     * a player wins the round.
+     */
     public void playUNOGame(){
         roundEnded = false;
         startGame();
