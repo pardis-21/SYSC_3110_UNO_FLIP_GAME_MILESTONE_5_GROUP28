@@ -27,3 +27,13 @@ Pardis Ehsani
 Implemented the PlayerOrder class.
 Contributed to the Game and Gamelogic classes.
 
+TO BE IMPLEMENTED
+SYSC 3110 Project Overview Milestone 2 UNO: A GUI-based UNO-style Java game where a View and Controller are used.
+
+TO BE IMPLEMENTED
+SYSC 3110 Project Overview Milestone 3 UNO: A GUI-based UNO-FLIP-sytem Java game where players can be AI.
+
+TO BE IMPLEMENTED
+SYSC 3110 Project Overview Milestone 4 UNO: Continuation of the GUI-based UNO-FLIP-style Java game where there are Redo capabilities, Reply Capability and Save/Load Features are implemented.
+
+
