@@ -5,9 +5,9 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class GameLogicTest {
+public class GameLogicModelTest {
 
-    private GameLogic gameLogic;
+    private GameLogicModel gameLogic;
     private Game game;
     private ArrayList<Player> playerNames;
 
@@ -20,7 +20,7 @@ public class GameLogicTest {
         game.addNewPlayer("2");
         game.addNewPlayer("3");
 
-        gameLogic = new GameLogic(playerNames);
+        gameLogic = new GameLogicModel(playerNames);
     }
 
     @Test
@@ -32,11 +32,11 @@ public class GameLogicTest {
     public void testInitScores() throws Exception {
         gameLogic.initScores();
 
-        Field scoresField = GameLogic.class.getDeclaredField("scores");
+        Field scoresField = GameLogicModel.class.getDeclaredField("scores");
         scoresField.setAccessible(true);
         Map<Player, Integer> scores = (Map<Player, Integer>) scoresField.get(gameLogic);
 
-        Field playerOrderField = GameLogic.class.getDeclaredField("playerOrder");
+        Field playerOrderField = GameLogicModel.class.getDeclaredField("playerOrder");
         playerOrderField.setAccessible(true);
         Object playerOrderObj = playerOrderField.get(gameLogic);
 
@@ -76,11 +76,11 @@ public class GameLogicTest {
     public void testSetPlayerOrderAddsPlayersToScores() throws Exception {
         gameLogic.initScores();
 
-        Field scoresField = GameLogic.class.getDeclaredField("scores");
+        Field scoresField = GameLogicModel.class.getDeclaredField("scores");
         scoresField.setAccessible(true);
         Map<Player, Integer> scores = (Map<Player, Integer>) scoresField.get(gameLogic);
 
-        Field playerOrderField = GameLogic.class.getDeclaredField("playerOrder");
+        Field playerOrderField = GameLogicModel.class.getDeclaredField("playerOrder");
         playerOrderField.setAccessible(true);
         Object oldPlayerOrder = playerOrderField.get(gameLogic);
 

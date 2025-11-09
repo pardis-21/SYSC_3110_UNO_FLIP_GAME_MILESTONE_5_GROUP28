@@ -10,7 +10,7 @@ import java.util.Scanner;
  * @Author Anvita Ala 101301514
  * @Author Pulcherie Mbaye 101302394
  */
-public class GameLogic{
+public class GameLogicModel {
     private PlayerOrder playerOrder;
     private ArrayList<Card> cards;
     private final ArrayList<Card> discardPile;
@@ -28,7 +28,7 @@ public class GameLogic{
      *
      * @param playerNames a list of player names participating in the game
      */
-    public GameLogic(ArrayList<Player> playerNames) {
+    public GameLogicModel(ArrayList<Player> playerNames) {
 
         //creating an arrayList of players
 
@@ -355,6 +355,10 @@ public class GameLogic{
         else {
             playerOrder.nextPlayerCounterClockwise();
         }
+    }
+
+    public boolean getDirection(){
+        return direction;
     }
 
     /**

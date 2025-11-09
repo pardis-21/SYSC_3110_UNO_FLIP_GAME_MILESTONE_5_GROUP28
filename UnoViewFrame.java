@@ -1,29 +1,38 @@
 import javax.swing.*;
 import javax.swing.JOptionPane;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 
-public class UnoFrame extends JFrame {
+public class UnoViewFrame extends JFrame {
 
-    Game game;
+    private GameLogicModel model;
 
-    JPanel cardPanel; // panel for current player's cards
-    JPanel decksPanel; // panel for the discard pile, new card pile, and "UNO!" button
-    JPanel scorePanel; // panel for the player's score
+    private JPanel cardPanel; // panel for current player's cards
+    private JPanel decksPanel; // panel for the discard pile, new card pile, and "UNO!" button
+    public JPanel scorePanel; // panel for the player's score
+    private JButton playerCardButtons[];
+    private JButton unoButton;
+    private static final int NUMBER_OF_CARDS_BEGGING_GAME = 7;
+    private ArrayList<Player> playerNames;
+
+    //JButton nextPlayerButton;
 
     public JButton discardPile;
     public JButton newCard;
     public JButton UNOButton;
 
-    public UnoFrame(){
-        game = new Game();
+    public UnoViewFrame(GameLogicModel model){
+        this.model = model;
+        this.model = new GameLogicModel(Game.players);
 
         while (true) {
             String userInput = JOptionPane.showInputDialog(null, "Enter the number of Players (2–4): ");
-            game.numPlayers = Integer.parseInt(userInput);
+            model.numPlayers = Integer.parseInt(userInput);
 
             try {
-                if (game.numPlayers < 2 || game.numPlayers > 4) {
+                if (model.numPlayers < 2 || model.numPlayers > 4) {
                     JOptionPane.showMessageDialog(null, "Invalid number of players! Please enter 2–4.");
                 } else
                     break;
@@ -33,12 +42,12 @@ public class UnoFrame extends JFrame {
             }
         }
 
-        while (game.players.size() < game.numPlayers) {
+        while (model.players.size() < model.numPlayers) {
             String playerName = JOptionPane.showInputDialog(null, "Enter player name");
 
             //make sure 2 players by same name don't exist
             boolean exists = false;
-            for (Player player : game.players) {
+            for (Player player : model.players) {
                 if (player.getName().equals(playerName)) {
                     JOptionPane.showMessageDialog(null, "That player already exists!");
                     exists = true;
@@ -46,7 +55,7 @@ public class UnoFrame extends JFrame {
                 }
             }
             if (!exists) {
-                game.addNewPlayer(playerName);
+                model.addNewPlayer(playerName);
             }
         }
 
@@ -115,35 +124,84 @@ public class UnoFrame extends JFrame {
         //FIGURE OUT HOW TO DO FOR ALL PLAYERS
         cardPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        // SHOWS HAND SIZE IN COMMAND AREA,
-        System.out.println("Hand size: " + game.playerOrder.getCurrentPlayer().getHand().size());
 
-        for(Card card: (game.playerOrder.getCurrentPlayer().getHand())) {
-            String displayText;
-            if(card.getCardType().ordinal() <= 9) {
-                displayText = String.valueOf(topCard.getCardType().ordinal());
+    //START THE GAME
+        model.startGame();
+        startGamePlayerButtons();
+
+
+    }
+    public void updateHand(List<Card> Hand){
+        discardPile.removeAll();
+        discardPile.repaint();
+    }
+
+    public void updateTopCard(Card card){
+        discardPile.removeAll();
+        discardPile.repaint();
+    }
+
+    public void showWildColourSelection(){
+
+    }
+
+    public void showMessage(String message){
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    //STARTING THE GAME FOR THE FIRST 7 CARDS PER PLAYER
+    public void startGamePlayerButtons(){
+
+
+        //JButton playerCardButton = playerCardButtons[NUMBER_OF_CARDS_BEGGING_GAME];
+        //CLEARING EVERYTHING AT THE START OF THE GAME
+        cardPanel.removeAll();
+        cardPanel.revalidate();
+        cardPanel.repaint();
+
+        //GET THE CURRENT PLAYER FROM THE PLAYERORDER CLASS
+        Player currentPlayer = game.playerOrder.getCurrentPlayer();
+
+        //DEBUGGING PURPOSES CAN DELETE LATER ENSURING THAT THE CORRECT PLAYER HAND IS SHOWN
+        System.out.println("SHOWING CARDS FOR: " + currentPlayer.showHand());
+        String displayText;
+        //CREATING THE BUTTON ARRAY FOR THE BOTTOM PANEL CARDPANEL IN THE FRAME
+        for (Card card: currentPlayer.getHand()){
+
+            if (card.getCardType().ordinal() <= 9) {
+                displayText = String.valueOf(card.getCardType().ordinal());
+
             }
-            else{
+            else {
                 displayText = card.getCardType().toString();
             }
-
 
             JButton cardButton = new JButton(displayText);
             cardButton.setBackground(card.JavaCardColour(card.getCardColour()));
             cardButton.setForeground(Color.BLACK);
             cardButton.setPreferredSize(new Dimension(80, 100));
 
-            //WHEN PLAYER CLICKS A CARD
-            //
-
+            //ACTION LISTNER HERE
+            cardButton.addActionListener(e -> handlePlayerCard(card));
             cardPanel.add(cardButton);
         }
+        cardPanel.revalidate();
+        cardPanel.repaint();
+
 
 
     }
 
-    public static void main(String[] args) {
-        UnoFrame frame = new UnoFrame();
+    private void handlePlayerCard(Card card){
+        GameLogicModel model = new GameLogicModel(playerNames);
+
+            if (model.getDirection()) {
+                game.playerOrder.nextPlayerClockwise();
+            }
+            else {
+                game.playerOrder.nextPlayerCounterClockwise();
+            }
+            startGamePlayerButtons();
     }
 
 
