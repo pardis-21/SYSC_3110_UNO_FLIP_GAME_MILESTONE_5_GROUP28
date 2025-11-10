@@ -20,10 +20,11 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private final GameLogicModel model;
     private UnoController controller;
 
+    private JTextArea currentPlayerName;
 
 
     //PLAYER CARDS IN HAND AS BUTTONS
-    private JButton[] playerCardButtons;
+    private ArrayList<JButton> playerCardButtons;
     //private JButton playerCard;
     private static final int SEVEN = 7;
 
@@ -31,21 +32,69 @@ public class UnoViewFrame extends JFrame implements UnoView {
     public JButton discardPile;
     public JButton UNOButton;
 
+    public int numPlayers = 0;
+
     public UnoViewFrame(GameLogicModel model){
         super("Uno");
         this.model = model;
+        controller = new UnoController(model);
+        this.playerCardButtons = new ArrayList<>();
+        playerNames = new ArrayList<>();
+
+        // ____________GET NUMBER OF PLAYERS_______________
+        boolean validInput = false;
+
+        while (!validInput) {
+            String input = JOptionPane.showInputDialog(this, "Enter the number of players (2–4):");
+            if (input == null) {
+                // user clicked "Cancel"
+                System.exit(0);
+            }
+
+            try {
+                numPlayers = Integer.parseInt(input.trim());
+                if (numPlayers < 2 || numPlayers > 4) {
+                    JOptionPane.showMessageDialog(this, "Please enter a number between 2 and 4.");
+                } else {
+                    validInput = true;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid input! Please enter a number between 2 and 4.");
+            }
+        }
+
+
+        //____________________________GET PLAYER NAMES_________________
+        while (playerNames.size() < numPlayers) {
+            String playerName = JOptionPane.showInputDialog(this,
+                    "Enter name for player " + (playerNames.size() + 1) + ":");
+
+            if (playerName == null || playerName.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Name cannot be empty!");
+                continue;
+            }
+
+            // Check for duplicate names
+            boolean exists = false;
+            for (Player player : playerNames) {
+                if (player.getName().equalsIgnoreCase(playerName.trim())) {
+                    JOptionPane.showMessageDialog(this, "That player already exists!");
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists) {
+                playerNames.add(new Player(playerName.trim())); // create Player object
+            }
+        }
+
 
         //FRAME PROPERTIES
         getContentPane().setBackground(new Color(30, 120,60));
         setTitle("UNO FLIP - MILESTONE 2");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-
-        this.controller = controller;
-
-
-
 
         cardPanel = new JPanel(); // display the players cards
         decksPanel = new JPanel();
@@ -110,8 +159,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
         cardPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         setVisible(true);
-
-
 
     }
     public void updateHand(List<Card> hand){
