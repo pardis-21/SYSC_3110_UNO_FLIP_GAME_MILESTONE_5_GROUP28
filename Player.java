@@ -42,13 +42,13 @@ public class Player {
     public ArrayList<Card> getHand(){
         return hand;
     }
+
     /**
      * Displays the player's hand in the console.
      * Each card is printed with its index for easier selection.
      *
      * @return a placeholder string (not used)
      */
-
     // show players hand in the console
     public String showHand(){
         for(int i =0; i< hand.size(); i++){

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
@@ -52,6 +53,7 @@ public class Card {
         public static Colour randomColour() {
             return COLOUR_VALUES[(random.nextInt(COLOUR_SIZE-1))]; // -1 because we don't want rainbow as an option for the random
         }
+
     }
 
     private Type cardType;
@@ -89,6 +91,29 @@ public class Card {
 
     public Colour getCardColour() {
         return cardColour;
+    }
+
+    /**
+     * Used to set background colours
+     * @param colour
+     * @return the Java.awt.Color equivalent of Colour.
+     */
+    public Color JavaCardColour(Colour colour){
+        if(colour == Colour.RED){
+            return Color.RED;
+        }
+        else if(colour == Colour.BLUE){
+            return Color.BLUE;
+        }
+        else if(colour == Colour.GREEN){
+            return Color.GREEN;
+        }
+        else if(colour == Colour.YELLOW){
+            return Color.YELLOW;
+        }
+        else{
+            return Color.WHITE;
+        }
     }
 
     /**

@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.*;
 import java.util.Scanner;
 
@@ -6,11 +7,11 @@ import java.util.Scanner;
  * It controls player turns, card drawing, discarding, special card effects,
  * and scoring between multiple players.
  * @Author Charis Nobossi 101297742
- * @Author Pardis Ehsani
- * @Author Anvita Ala
+ * @Author Pardis Ehsani 101300400
+ * @Author Anvita Ala 101301514
  * @Author Pulcherie Mbaye 101302394
  */
-public class GameLogic{
+public class GameLogicModel {
     private PlayerOrder playerOrder;
     private ArrayList<Card> cards;
     private final ArrayList<Card> discardPile;
@@ -20,26 +21,27 @@ public class GameLogic{
     private boolean direction; //clockwise or counterclockwise
     private final Map<Player, Integer> scores = new HashMap<>();
     private static final int SEVEN = 7;
+    private boolean turnCompleted = false;
+
+
+    //NEW GUI COMPONENTS ADDED
+    private List<UnoView> views = new ArrayList<>();
+
 
 
     /**
      * Constructs a new GameLogic instance and initializes players, draw pile,
      * and default direction.
      *
-     * @param playerNames a list of player names participating in the game
      */
-    public GameLogic(ArrayList<String> playerNames) {
+    public GameLogicModel() {
 
         //creating an arrayList of players
 
+
+
         //instance of that class
         playerOrder = new PlayerOrder();
-
-        //adding players to doublylinkedlist
-        for (int i = 0; i < playerNames.size(); i++){
-            Player player = new Player(playerNames.get(i));
-            playerOrder.addPlayer(player);
-        }
 
 
 
@@ -55,12 +57,19 @@ public class GameLogic{
 
         //assuming by UNO rules that all players have same age and starting from CW direction
         direction = true; //clockwise direction
+        playerOrder = new PlayerOrder();
+        direction = true;
     }
 
+
+
+    public void addUnoViewFrame(UnoView view){
+        views.add(view);
+    }
     /**
      * Initializes the score map with each player's score set to 0.
      */
-    private void initScores() {
+    public void initScores() {
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
             scores.put(player, 0);
         }
@@ -73,15 +82,9 @@ public class GameLogic{
     //at the beginning of the game, each player is dealt 7 cards
     private void dealCardsBeginning(){
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
-            if (player.getHand().size() == 7){
-                break;
-            }
-            else {
-                for (int i = 0; i < SEVEN; i++){
-                        player.getHand().add(drawPile.get(0));
-                        drawPile.remove(drawPile.get(0));
-                    }
-
+            while (player.getHand().size() < SEVEN) {
+                player.getHand().add(drawPile.get(0));
+                drawPile.remove(0);
             }
         }
         //this is to make sure the top card isn't a special card
@@ -110,6 +113,13 @@ public class GameLogic{
         return discardPile.get(0);
     }
 
+    public boolean isTurnCompleted() {
+        return turnCompleted;
+    }
+
+    public void setTurnCompleted(boolean completed) {
+        this.turnCompleted = completed;
+    }
     /**
      * Starts a new round by dealing cards and displaying the initial top card.
      */
@@ -360,6 +370,10 @@ public class GameLogic{
         }
     }
 
+    public boolean getDirection(){
+        return direction;
+    }
+
     /**
      * Sets the player order and ensures all players exist in the score map.
      *
@@ -371,6 +385,62 @@ public class GameLogic{
             scores.putIfAbsent(p, 0);
         }
     }
+    /**
+    * Gets the player order
+     */
+    public Player getCurrentPlayer(){
+        return playerOrder.getCurrentPlayer();
+    }
+
+    /**
+     * Gets the player hand
+     */
+    public ArrayList<Card> getPlayerHand(){
+        return getCurrentPlayer().getHand();
+    }
+    /**
+     * Gets the total number of players
+     */
+    public int getTotalNumberOfPlayers(){
+        return playerOrder.getAllPlayersToArrayList().size();
+    }
+
+    public void initializePlayers(){
+        String userInput = JOptionPane.showInputDialog(null, "Enter the number of Players (2–4): ");
+        int players = Integer.parseInt(userInput);
+        int numPlayers = getTotalNumberOfPlayers();
+        while (true) {
+
+            try {
+                if (numPlayers < 2 || numPlayers > 4) {
+                    JOptionPane.showMessageDialog(null, "Invalid number of players! Please enter 2–4.");
+                } else
+                    break;
+            }
+            catch (InputMismatchException e) {
+                JOptionPane.showMessageDialog(null, "Invalid number of players! Please enter 2–4.");
+            }
+        }
+
+        while (players < numPlayers) {
+            String playerName = JOptionPane.showInputDialog(null, "Enter player name");
+
+            //make sure 2 players by same name don't exist
+            boolean exists = false;
+            for (Player player : playerOrder.getAllPlayersToArrayList()) {
+                if (player.getName().equals(playerName)) {
+                    JOptionPane.showMessageDialog(null, "That player already exists!");
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                Player player = new Player(playerName);
+                playerOrder.addPlayer(player);
+            }
+        }
+    }
+
 
     /**
      * Runs a full UNO game session, starting rounds and continuing until
@@ -384,6 +454,34 @@ public class GameLogic{
             System.out.println("Top card: " + getTopCard() + "\n");
             playGame(); // this will set roundEnded = true when someone goes out
         }
+    }
+
+
+    public void drawCardCurrentPlayer() {
+        getCurrentPlayer().getHand().add(drawPile.get(0));
+        drawPile.remove(0);
+
+
+    }
+    /**
+     * Tries to play the given card from the current player's hand.
+     * @param card the card the user clicked
+     * @return true if the move was valid and applied, false otherwise
+     */
+    public boolean tryPlayCard(Card card) {
+        Card top = getTopCard();
+
+        // try first, is this card playable?
+        if (!card.playCardOnAnother(top)) {
+            return false;
+        }
+
+        getCurrentPlayer().getHand().remove(card);
+
+        discardPile.add(0, card);
+        // need to implement special cards
+
+        return true;
     }
 
 

@@ -27,10 +27,29 @@ public class PlayerTest {
 	  assertTrue("players hand is empty",player.getHand().isEmpty());
   }
 
+//  @Test
+//  public void testhasOneCard(){
+//		Card card = new Card();
+//		player.getHand().add(card);
+//		assertTrue("player has one card",player.hasOneCard());
+//  }
+
   @Test
   public void testhasZeroCard(){
 		assertTrue("player has zero cards", player.hasZeroCard());
   }
+
+//  @Test
+//  public void testsetPlayerTurnTrue(){
+//		player.setPlayerTurnTrue();
+//		assertTrue("players turn is set to true", player.getPlayerTurnStatus());
+//  }
+//
+//  @Test
+//  public void testsetPlayerTurnFalse(){
+//		player.setPlayerTurnFalse();
+//		assertFalse("players turn us set to false",player.getPlayerTurnStatus());
+//	}
 
 	@Test
   public void testplayCard() {
@@ -67,6 +86,32 @@ public class PlayerTest {
 		String printed = player.showHand();
 		assertEquals(" ", printed);
   }
+
+
+
+
+
+//        Card.Colour colour = topcard.getCardColour();
+//        colour = Card.Colour.RED; // set the top card colour to red
+//        Card.Type type = topcard.getCardType();
+//        type = Card.Type.FIVE; // set the top card type to 5 // enum is immutable
+//
+//      Card playerCard = new Card();
+//      Card.Colour playerColour = topcard.getCardColour();
+//      playerColour = Card.Colour.RED; // set the top card colour to red
+//      Card.Type playerType = topcard.getCardType();
+//      playerType = Card.Type.THREE; // set the top card type to 5
+//
+//      player.getHand().add(playerCard);
+//      boolean result = player.playCard(0, topcard, discardPile);
+//
+//      assertTrue(result);
+//      assertTrue(discardPile.contains(playerCard));
+//      assertTrue(player.getHand().isEmpty());
+
+
+
+
 
 
 }
