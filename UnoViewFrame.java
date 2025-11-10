@@ -132,7 +132,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
                         controller.onCardClicked(card);
                     }
                 });
-                
+
                 cardPanel.add(cardButton);
             }
         }
