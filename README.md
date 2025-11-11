@@ -1,3 +1,37 @@
+SYSC 3110 Project Overview Milestone 2 UNO:
+This milestone is about converting milestone 1 into a GUI following MVC pattern.
+It includes the main gameplay logic, player management, unoFrame, UnoController and card functionalities.
+all supported by unit tests and UML/Sequence diagrams to illustrate the system.
+
+The main deliverables include:
+Complete implementation of all classes(Card, Player, PlayerOrder, GameLogicModel, UnoView, UnoFrame, UnoController and Game)
+UML and Sequence Diagrams represent the system's structure and interactions between various classes.
+Unit tests for all classes and methods in the game.
+
+Team contribution:
+Pulcherie Mbaye:
+Contributed to the implementation of GameLogicModel, UnoController and UnoViewFrame.
+Implemented the test cases.
+
+Anvita Ala:
+Contributed to the implementation of GameLogicModel, UnoController and UnoViewFrame.
+Created the Sequence Diagram
+Created UML class diagram
+
+Charis Nobossi:
+Contributed to the implementation of GameLogicModel, UnoController and UnoViewFrame.
+
+Pardis Ehsani:
+Contributed to the implementation of GameLogicModel, UnoController and UnoViewFrame.
+Contributed to the UML class diagram.
+
+TO BE IMPLEMENTED
+SYSC 3110 Project Overview Milestone 3 UNO: A GUI-based UNO-FLIP-sytem Java game where players can be AI.
+
+TO BE IMPLEMENTED
+SYSC 3110 Project Overview Milestone 4 UNO: Continuation of the GUI-based UNO-FLIP-style Java game where there are Redo capabilities, Reply Capability and Save/Load Features are implemented.
+
+_____________________________________________________________________________________________________
 SYSC 3110 Project Overview Milestone 1 UNO:
 This project is a simplified UNO-style text-based card game implemented in Java.
 It includes the main gameplay logic, player management and card functionalities,
@@ -26,9 +60,6 @@ Contributed to the Card class
 Pardis Ehsani
 Implemented the PlayerOrder class.
 Contributed to the Game and Gamelogic classes.
-
-TO BE IMPLEMENTED
-SYSC 3110 Project Overview Milestone 2 UNO: A GUI-based UNO-style Java game where a View and Controller are used.
 
 TO BE IMPLEMENTED
 SYSC 3110 Project Overview Milestone 3 UNO: A GUI-based UNO-FLIP-sytem Java game where players can be AI.
