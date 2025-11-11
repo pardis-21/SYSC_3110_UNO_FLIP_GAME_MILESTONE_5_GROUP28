@@ -1,3 +1,8 @@
+--------------------------------
+          GROUP 28
+--------------------------------
+
+
 SYSC 3110 Project Overview Milestone 2 UNO:
 This milestone is about converting milestone 1 into a GUI following MVC pattern.
 It includes the main gameplay logic, player management, unoFrame, UnoController and card functionalities.
