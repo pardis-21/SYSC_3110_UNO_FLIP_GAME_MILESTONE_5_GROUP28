@@ -89,7 +89,8 @@ public class GameLogicModel {
                         drawPile.get(0).getCardLightType() == Card.LightType.WILD_DRAW2 ||
                         drawPile.get(0).getCardLightType() == Card.LightType.WILD ||
                         drawPile.get(0).getCardLightType() == Card.LightType.REVERSE ||
-                        drawPile.get(0).getCardLightType() == Card.LightType.SKIP
+                        drawPile.get(0).getCardLightType() == Card.LightType.SKIP ||
+                        drawPile.get(0).getCardLightType() == Card.LightType.FLIP_TO_DARK
         ) {
             Card topCard = drawPile.remove(0);
             drawPile.add(topCard);
@@ -523,19 +524,24 @@ public class GameLogicModel {
     }
 
 
-    public void flipSide(){
+    public void flipSide() {
         lightMode = !lightMode;
-        for(Player player: playerOrder.getAllPlayersToArrayList()) {
+
+        for (Player player : playerOrder.getAllPlayersToArrayList()) {
             for (Card card : player.getHand()) {
                 card.lightMode = !card.lightMode;
             }
         }
-        for(Card card: drawPile){
+
+        for (Card card : drawPile) {
             card.lightMode = !card.lightMode;
         }
-        getTopCard().lightMode = !getTopCard().lightMode;
 
+        for (Card card : discardPile) {
+            card.lightMode = !card.lightMode;
+        }
     }
+
 
 
     public PlayerOrder getPlayerOrder(){

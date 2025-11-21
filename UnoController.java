@@ -210,8 +210,12 @@ public class UnoController implements ActionListener {
             viewFrame.updateHand(model.getPlayerHand());
             viewFrame.updateTopCard(model.getTopCard());
             viewFrame.currentPlayerName.setText(model.getCurrentPlayer().getName());
-        }
+            if ((!model.lightMode && model.getTopCard().getCardLightType().equals(Card.LightType.FLIP_TO_DARK)) ||
+                    (model.lightMode && model.getTopCard().getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT))) {
+                viewFrame.updateAllPlayerHands(model.getPlayerOrder());
+            }
 
+        }
 
     }
 
