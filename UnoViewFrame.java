@@ -209,7 +209,7 @@ public class UnoViewFrame extends JFrame {
                 );
                 card.setCardLightColour((String) selectedOption);
             }
-            model.playGame(card);
+            //model.playGame(card);
 
             discardPile.setText(text);
             discardPile.setBackground(card.JavaCardLightColour(card.getCardLightColour()));
@@ -234,7 +234,7 @@ public class UnoViewFrame extends JFrame {
                 card.setCardDarkColour((String) selectedOption);
 
             }
-            model.playGame(card);
+            //model.playGame(card);
 
             discardPile.setText(text);
             discardPile.setBackground(card.JavaCardDarkColour(card.getCardDarkColour()));
@@ -277,7 +277,6 @@ public class UnoViewFrame extends JFrame {
 
         //CREATING THE BUTTON ARRAY FOR THE BOTTOM PANEL CARDPANEL IN THE FRAME
         List<Card> hand = controller.getCurrentPlayerHand();
-
         for (Card card: hand){
             PlayerCardButton playerCardButtons = new PlayerCardButton(card);
             playerCardButtons.addActionListner(controller);

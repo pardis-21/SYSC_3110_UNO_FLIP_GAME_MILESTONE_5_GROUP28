@@ -157,9 +157,14 @@ public class UnoController implements ActionListener {
         }
         else if (source == viewFrame.discardPile){
             JOptionPane.showMessageDialog(viewFrame,"Top card: " + model.getTopCard());
+
         }
         else if (source == viewFrame.nextPlayerButton) { // making sure player actually plays b4 going to next player
-            if (!model.isTurnCompleted()) {
+            if(model.getTopCard().getCardDarkType().equals(Card.DarkType.WILD_DRAW_COLOUR) && !model.isTurnCompleted() && !model.lightMode){
+                viewFrame.showMessage("You have to draw cards until you get a " + model.getTopCard().getCardDarkColour() + " card!");
+                return;
+            }
+            else if (!model.isTurnCompleted()) {
                 viewFrame.showMessage("You must play or draw before ending your turn!");
                 return;
             }
@@ -205,8 +210,6 @@ public class UnoController implements ActionListener {
             viewFrame.updateHand(model.getPlayerHand());
             viewFrame.updateTopCard(model.getTopCard());
             viewFrame.currentPlayerName.setText(model.getCurrentPlayer().getName());
-            if (model.getTopCard().getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT) || model.getTopCard().getCardLightType().equals(Card.LightType.FLIP_TO_DARK )){
-                viewFrame.updateAllPlayerHands(model.getPlayerOrder());}
         }
 
 

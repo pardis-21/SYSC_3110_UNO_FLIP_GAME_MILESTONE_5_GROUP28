@@ -406,21 +406,122 @@ public class GameLogicModel {
     public boolean tryPlayCard(Card card) {
         Card top = getTopCard();
 
-        // try first, is this card playable?
-        if (!card.playCardOnAnother(top)) {
-            return false;
-        }
+        // 1. Check play validity
+        if (!card.playCardOnAnother(top)) return false;
 
+        // 2. Remove from hand + place on discard
         getCurrentPlayer().getHand().remove(card);
-
         discardPile.add(0, card);
 
+        // 3. Apply special effects IMMEDIATELY (only once!)
+        applyCardEffect(card);
+
+        // 4. If they emptied their hand, end the round
+        if (getCurrentPlayer().getHand().isEmpty()) {
+            awardRoundPointsTo(getCurrentPlayer());
+        }
 
         setTurnCompleted(true);
-        // need to implement special cards
-
         return true;
     }
+
+    private void applyCardEffect(Card card) {
+
+        if (lightMode) {
+            switch (card.getCardLightType()) {
+
+                case REVERSE:
+                    direction = !direction;
+                    playerOrder.getCurrentPlayer().getHand().remove(card);
+                    playerTurn();
+                    if (playerOrder.numPlayers == 2) {
+                        playerTurn();
+                    }
+                    break;
+
+                case SKIP:
+                    playerOrder.getCurrentPlayer().getHand().remove(card);
+                    playerTurn(); // skip this player
+                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
+
+                    playerTurn();
+                    break;
+
+                case DRAW_ONE:
+                    playerOrder.getCurrentPlayer().getHand().remove(card);
+
+                    playerTurn();
+                    playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                    drawPile.remove(0);
+                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
+
+                    playerTurn();
+                    break;
+
+                case WILD_DRAW2:
+                    playerOrder.getCurrentPlayer().getHand().remove(card);
+                    playerTurn();
+                    playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                    drawPile.remove(0);
+                    playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                    drawPile.remove(0);
+
+                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
+
+                    playerTurn();
+                    break;
+
+                case FLIP_TO_DARK:
+                    playerOrder.getCurrentPlayer().getHand().remove(card);
+                    flipSide();
+                    playerTurn();
+                    break;
+            }
+
+        } else { // dark mode
+
+            switch (card.getCardDarkType()) {
+
+                case REVERSE:
+                    direction = !direction;
+                    playerTurn();
+                    if (playerOrder.numPlayers == 2) {
+                        playerTurn();
+                    }
+                    break;
+
+                case DRAW_FIVE:
+                    playerOrder.getCurrentPlayer().getHand().remove(card);
+                    playerTurn(); // skip this player
+                    for(int i = 0; i<5; i++) {//draw 5 cards
+                        playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                    }
+                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
+                    playerTurn();
+                    break;
+
+                case SKIP_ALL:
+                    for (int i = 0; i<playerOrder.getAllPlayersToArrayList().size(); i++){
+                        playerTurn();
+                    }
+                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
+                    break;
+
+                case WILD_DRAW_COLOUR:
+                    playerOrder.getCurrentPlayer().getHand().remove(card);
+                    playerTurn();
+                    break;
+
+                case FLIP_TO_LIGHT:
+                    playerOrder.getCurrentPlayer().getHand().remove(card);
+                    flipSide();
+                    playerTurn();
+                    break;
+            }
+        }
+
+    }
+
 
     public void flipSide(){
         lightMode = !lightMode;
