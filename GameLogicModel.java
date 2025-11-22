@@ -107,6 +107,9 @@ public class GameLogicModel {
      */
 
     public Card getTopCard(){
+        if(discardPile.isEmpty()) {
+            return null;
+        }
         return discardPile.get(0);
     }
 
@@ -352,6 +355,11 @@ public class GameLogicModel {
         return playerOrder.getAllPlayersToArrayList().size();
     }
 
+
+    /**
+     * now asks "Is X an AI? (yes/no)".
+     * If yes, it creates an AIPlayer, otherwise Player
+     */
     public void initializePlayers(){
       //  int players = Integer.parseInt(userInput);
         while (true) {
@@ -372,6 +380,7 @@ public class GameLogicModel {
 
         while (playerOrder.getAllPlayersToArrayList().size() < numPlayers) {
             String playerName = JOptionPane.showInputDialog(null, "Enter player name");
+            if(playerName == null) return;
 
             //make sure 2 players by same name don't exist
             boolean exists = false;
@@ -383,18 +392,56 @@ public class GameLogicModel {
                 }
             }
             if (!exists) {
-                Player player = new Player(playerName);
+                String isAI = JOptionPane.showInputDialog(null, "is" + playerName + "an AI? (yes/no)");
+                boolean ai = isAI !=null && isAI.equalsIgnoreCase("yes");
+                Player player;
+                if (ai) {
+                    player = new AIPlayer(playerName + " (AI)");
+                } else {
+                    player = new Player(playerName);
+                }
                 playerOrder.addPlayer(player);
+
             }
         }
 
         initScores();
     }
 
+    /**
+     * handles an ai players turn
+     */
+
+    public void handleAIPlayer(AIPlayer ai){
+        Card top = getTopCard();
+        Card chosenCard = ai.chooseCardToPlay(top);
+
+        if(chosenCard == null){
+            if(!drawPile.isEmpty()){
+                ai.getHand().add(drawPile.remove(0));
+            }
+            setTurnCompleted(true);
+            return;
+        }
+
+        ai.getHand().remove(chosenCard);
+        discardPile.add(0, chosenCard);
+
+        applyCardEffect(chosenCard);
+        if(ai.getHand().isEmpty()){
+            awardRoundPointsTo(ai);
+        }
+        setTurnCompleted(true);
+
+
+    }
+
 
     public void drawCardCurrentPlayer() {
-        getCurrentPlayer().getHand().add(drawPile.get(0));
-        drawPile.remove(0);
+       if(!drawPile.isEmpty()){
+           getCurrentPlayer().getHand().add(drawPile.get(0));
+           drawPile.remove(0);
+       }
         setTurnCompleted(true);
 
 
@@ -522,6 +569,11 @@ public class GameLogicModel {
         }
 
     }
+
+
+    /**
+     * handle ai player
+     */
 
 
     public void flipSide() {
