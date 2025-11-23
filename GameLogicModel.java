@@ -34,15 +34,8 @@ public class GameLogicModel {
      */
     public GameLogicModel() {
 
-        //creating an arrayList of players
-
-
-
         //instance of that class
         playerOrder = new PlayerOrder();
-
-
-
         discardPile = new ArrayList<>();
 
         // for future use flipPile = new ArrayList<>();
@@ -58,8 +51,6 @@ public class GameLogicModel {
         playerOrder = new PlayerOrder();
         direction = true;
     }
-
-
 
 
     /**
@@ -113,10 +104,18 @@ public class GameLogicModel {
         return discardPile.get(0);
     }
 
+    /**
+     * Determines if the players turn is complete to allow for the next player to move on
+     * @return true or false depending on whether players turn is complete
+     */
     public boolean isTurnCompleted() {
         return turnCompleted;
     }
 
+    /**
+     * Sets the turn complete if the player puts down the card to ensure that the next player can play
+     * @param completed a boolean value, if true, the current players turn is complete, if false, the current player is still playing
+     */
     public void setTurnCompleted(boolean completed) {
         this.turnCompleted = completed;
     }
@@ -124,6 +123,9 @@ public class GameLogicModel {
      * Starts a new round by dealing cards and displaying the initial top card.
      */
 
+    /**
+     * Starting the game by dealing cards and showing the top card in the discard pile
+     */
     public void startGame() {
         //starting round
         dealCardsBeginning();
@@ -134,7 +136,6 @@ public class GameLogicModel {
 
     }
 
-
     /**
      * Handles the gameplay for a single player's turn, including:
      * - Drawing a card
@@ -144,6 +145,10 @@ public class GameLogicModel {
      * - Checking for round completion
      */
 
+    /**
+     * Playing the game in both light mode and dark mode for UNO FLIP
+     * @param card to determine how the game can be played within UNO and if its a lightmode or darkmode game
+     */
     public void playGame(Card card) {
 
         if (lightMode) {
@@ -236,11 +241,6 @@ public class GameLogicModel {
 
         }
     }
-
-
-
-
-
 
     /**
      * Awards points to the player who wins a round, based on other players' remaining cards.
