@@ -50,7 +50,7 @@ public class UnoViewFrame extends JFrame {
     public UnoViewFrame(GameLogicModel model){
         super("Uno");
         this.model = model;
-        controller = new UnoController(model);
+        //controller = new UnoController(model);
         this.playerCardButtons = new ArrayList<>();
         playerNames = new ArrayList<>();
 
@@ -176,11 +176,11 @@ public class UnoViewFrame extends JFrame {
         }
     }
 
-    public void updateAllPlayerHands(PlayerOrder order){
-        for (Player player: order.getAllPlayersToArrayList()){
-            updateHand(player.getHand());
-        }
-    }
+    //public void updateAllPlayerHands(PlayerOrder order){
+      //  for (Player player: order.getAllPlayersToArrayList()){
+        //    updateHand(player.getHand());
+        //}
+    //}
 
 
     /**

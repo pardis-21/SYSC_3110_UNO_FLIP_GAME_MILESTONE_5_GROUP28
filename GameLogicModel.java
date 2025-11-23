@@ -33,7 +33,6 @@ public class GameLogicModel {
      *
      */
     public GameLogicModel() {
-
         //instance of that class
         playerOrder = new PlayerOrder();
         discardPile = new ArrayList<>();
@@ -45,11 +44,11 @@ public class GameLogicModel {
         for (int i = 0; i < 108; i++){
             drawPile.add(new Card());
         }
+        //shuffling cards for randomness
+        Collections.shuffle(drawPile);
 
         //assuming by UNO rules that all players have same age and starting from CW direction
         direction = true; //clockwise direction
-        playerOrder = new PlayerOrder();
-        direction = true;
     }
 
 
@@ -156,7 +155,7 @@ public class GameLogicModel {
                 direction = !direction;
                 playerOrder.getCurrentPlayer().getHand().remove(card);
                 playerTurn();
-                if (playerOrder.numPlayers == 2) {
+                if (getTotalNumberOfPlayers() == 2) {
                     playerTurn();
                 }
 
@@ -324,7 +323,7 @@ public class GameLogicModel {
      * Gets the total number of players
      */
     public int getTotalNumberOfPlayers(){
-        return playerOrder.getAllPlayersToArrayList().size();
+        return numPlayers;
     }
 
     /**
@@ -384,11 +383,9 @@ public class GameLogicModel {
      */
     public Card handleAIPlayer(AIPlayer ai) {
 
-
 //        for (Card c : ai.getHand()) {
 //            c.lightMode = lightMode;   // sync card mode with global mode
 //        }
-
         if (getCurrentPlayer() != ai) {
             return null;
         }
@@ -399,7 +396,7 @@ public class GameLogicModel {
         // No playable card → draw
         if (chosenCard == null) {
             if(!drawPile.isEmpty()){
-                ai.getHand().add(drawPile.remove(0));
+                ai.getHand().add(drawOneorNullCard());
             }
          //   drawCardCurrentPlayer();
             setTurnCompleted(true);
@@ -443,7 +440,6 @@ public class GameLogicModel {
      */
     public boolean tryPlayCard(Card card) {
         Card top = getTopCard();
-
         // 1. Check play validity
         if (!card.playCardOnAnother(top)) return false;
 
@@ -536,12 +532,17 @@ public class GameLogicModel {
 
                 case DRAW_FIVE:
                     playerTurn(); // skip this player
-                    for(int i = 0; i < 5; i++) {//draw 5 cards
-                        playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
-                        drawPile.remove(0); //removing the card so it doesnt get to be used again by the pile
+                    for (int i = 0; i < 5; i++) {//draw 5 cards
+                        Card drawCard = drawOneorNullCard();
+                        //there are no more cards to pick up
+                        if (drawCard == null){
+                            break;
+                        }
+                        playerOrder.getCurrentPlayer().getHand().add(drawCard);
                     }
-                    // JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
-                    //playerTurn();
+                    //after the cards have been dealt to that one player who had to DRAW FIVE
+                    //skip to the next player automatically
+                    playerTurn();
                     setTurnCompleted(true);
                     break;
 
@@ -551,11 +552,22 @@ public class GameLogicModel {
                         //playerTurn();
                     //}
                     //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
+                    setTurnCompleted(false); //player plays again
                     break;
 
                 case WILD_DRAW_COLOUR:
                    // playerOrder.getCurrentPlayer().getHand().remove(card);
                     playerTurn();
+                    Player attackedPlayer = playerOrder.getCurrentPlayer();
+
+                    //checkign to see if the chosencard actually exists and checking to see if its a dark mode card color
+                    Card.DarkColour chosenCard = card.getCardDarkColour();
+                    if (chosenCard == null){
+                        //if no dark mode card, automatically skip the turn
+                        playerTurn();
+                        setTurnCompleted(true);
+                        break;
+                    }
                     break;
 
                 case FLIP_TO_LIGHT:
@@ -591,6 +603,43 @@ public class GameLogicModel {
             card.lightMode = lightMode;
         }
     }
+
+    /**
+     * Forcing the lightmode to be the current games mode
+     * @param mode is true then its light mode, if false, then its in dark mode
+     */
+    public void forceLightMode(boolean mode){
+        this.lightMode = mode;
+    }
+
+    /**
+     * Draws a single card or if the deck is empty, it returns null
+     * @return the card on the top of the deck if none, then null
+     */
+    private Card drawOneorNullCard() {
+        if (drawPile.isEmpty() || drawPile == null) {
+            return null;
+        }
+        else {
+            return drawPile.get(0);
+        }
+    }
+
+    /**
+     * Checking if the top card without returning it is null or not meaning
+     * is there a card in the pile or not
+     * @return the top card if there is any in the top of the drawpile
+     */
+    private Card peekAtDrawPile(){
+        if (drawPile == null || drawPile.isEmpty()){
+            return null;
+        }
+        else {
+            return drawPile.get(0);
+        }
+    }
+
+
 
 
 

@@ -3,7 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-
 /**
  * This class acts as the bridge between the GameLogicModel and the view.
  * It handles user interactions such as playing cards, drawing cards,
@@ -227,7 +226,7 @@ public class UnoController implements ActionListener {
             viewFrame.currentPlayerName.setText(model.getCurrentPlayer().getName());
             if ((!model.lightMode && model.getTopCard().getCardLightType().equals(Card.LightType.FLIP_TO_DARK)) ||
                     (model.lightMode && model.getTopCard().getCardDarkType().equals(Card.DarkType.FLIP_TO_LIGHT))) {
-                viewFrame.updateAllPlayerHands(model.getPlayerOrder());
+                //viewFrame.updateAllPlayerHands(model.getPlayerOrder());
             }
 
         }
@@ -244,41 +243,30 @@ public class UnoController implements ActionListener {
     }
 
     private void handleAITurnIfCurrent() {
-        Player current = model.getCurrentPlayer();
-        if (!(current instanceof AIPlayer ai)) {
-            return;
-        }
-        //added a delay to really make it seem like you're playing against an AI model
-        try {
-            Thread.sleep(1500);
+       while (model.getCurrentPlayer() instanceof AIPlayer ai) {
+           //added a delay to really make it seem like you're playing against an AI model
+           try {
+               Thread.sleep(1500);
+           }
+           catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+           }
 
-        }
-        catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+           // Let the AI take its turn
+           Card played = model.handleAIPlayer(ai);
+           updateView();
 
-        Player before = current;
+           if (played != null) {
+               viewFrame.showMessage(ai.getName() + " played " + played);
+           }
+           else {
+               viewFrame.showMessage(ai.getName() + " drew a card.");
+           }
 
-        // Let the AI take its turn
-        Card played = model.handleAIPlayer(ai);
-        updateView();
-
-        if (played != null) {
-            viewFrame.showMessage(current.getName() + " played " + played);
-        } else {
-            viewFrame.showMessage(current.getName() + " drew a card.");
-        }
-
-        //if ai still has the turn for example playing a SKIP_ALL CARD
-        if(model.getCurrentPlayer() == before && !model.isTurnCompleted()) {
-            model.setTurnCompleted(false); //AI keeps playing
-            handleAITurnIfCurrent();
-            return;
-        }
-        if (model.getCurrentPlayer() instanceof AIPlayer){
-                handleAITurnIfCurrent();
-        }
-
+           //model.setTurnCompleted(true);
+           model.playerTurn();
+           updateView();
+       }
     }
 
 }
