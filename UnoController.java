@@ -59,11 +59,13 @@ public class UnoController implements ActionListener {
     public void onCardClicked(Card heldCard) {
         if (model.getCurrentPlayer() instanceof AIPlayer) {
             JOptionPane.showMessageDialog(null, "It's an AI player's turn. Click Next Player to continue.");
+            model.setTurnCompleted(false);
             return;
         }
 
         if (model.isTurnCompleted()) {
             JOptionPane.showMessageDialog(null, "Your turn is complete! Click on the next player button.");
+            model.setTurnCompleted(false);
             return;
         }
 
@@ -137,6 +139,7 @@ public class UnoController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if (viewFrame == null) {
             System.err.println("ViewFrame is not initialized yet!");
             return;
@@ -170,6 +173,8 @@ public class UnoController implements ActionListener {
 
         }
         else if (source == viewFrame.nextPlayerButton) {
+            model.setTurnCompleted(true);
+            model.playerTurn();
             // making sure player actually plays b4 going to next player
             if (model.getTopCard().getCardDarkType().equals(Card.DarkType.WILD_DRAW_COLOUR)
                     && !model.isTurnCompleted() && !model.lightMode) {
@@ -245,6 +250,7 @@ public class UnoController implements ActionListener {
     private void handleAITurnIfCurrent() {
 
         Player currentPlayer = model.getCurrentPlayer();
+
         if (currentPlayer instanceof AIPlayer) {
             //added a delay to really make it seem like you're playing against an AI model
                try {
@@ -256,21 +262,23 @@ public class UnoController implements ActionListener {
                AIPlayer aiPlayer = (AIPlayer) currentPlayer;
                //ai model plays the card
                Card played = model.handleAIPlayer(aiPlayer);
-               model.setTurnCompleted(true);
 
                updateView();
 
                //if the card can be played then
                if (played != null) {
                    viewFrame.showMessage(aiPlayer.getName() + " played " + played);
+                   //model.setTurnCompleted(false);
 
                 }
                //otherwise ai picked up a card cuz they couldnt play anything
                else {
                    viewFrame.showMessage(aiPlayer.getName() + " drew a card.");
-                   model.setTurnCompleted(true);
-                   model.playerTurn();
+
+                   //model.setTurnCompleted(true);
+                   //model.playerTurn();
                }
+               model.setTurnCompleted(false);
                updateView();
 
        }

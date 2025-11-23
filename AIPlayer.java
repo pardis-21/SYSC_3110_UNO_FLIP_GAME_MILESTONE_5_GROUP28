@@ -6,7 +6,6 @@ public class AIPlayer extends Player {
     public AIPlayer(String name){
         super(name);
     }
-
     // choosing the first valid card
 
     /**

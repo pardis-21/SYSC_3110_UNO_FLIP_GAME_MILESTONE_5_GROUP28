@@ -23,8 +23,8 @@ public class GameLogicModel {
     public final Map<Player, Integer> scores = new HashMap<>();
     private static final int SEVEN = 7;
     private boolean turnCompleted = false;
-    int numPlayers = 0;
-    boolean lightMode = true;
+    private int numPlayers = 0;
+    public boolean lightMode = true;
 
 
     /**
@@ -145,6 +145,7 @@ public class GameLogicModel {
      */
 
     /**
+     *
      * Playing the game in both light mode and dark mode for UNO FLIP
      * @param card to determine how the game can be played within UNO and if its a lightmode or darkmode game
      */
@@ -154,12 +155,14 @@ public class GameLogicModel {
             if (card.getCardLightType().equals(Card.LightType.REVERSE)) {
                 direction = !direction;
                 playerOrder.getCurrentPlayer().getHand().remove(card);
-                playerTurn();
+                //playerTurn();
                 if (getTotalNumberOfPlayers() == 2) {
+                    //setTurnCompleted(true);
                     playerTurn();
                 }
 
-            } else if (card.getCardLightType().equals(Card.LightType.SKIP)) {
+            }
+            else if (card.getCardLightType().equals(Card.LightType.SKIP)) {
                 playerOrder.getCurrentPlayer().getHand().remove(card);
                 playerTurn(); // skip this player
                 //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
@@ -174,7 +177,7 @@ public class GameLogicModel {
                 playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                 drawPile.remove(0);
 
-                //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
+                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
 
                 playerTurn();
 
@@ -184,7 +187,7 @@ public class GameLogicModel {
                 playerTurn();
                 playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                 drawPile.remove(0);
-                //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
+                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
 
                 playerTurn();
 
@@ -209,7 +212,7 @@ public class GameLogicModel {
                 direction = !direction;
                 playerOrder.getCurrentPlayer().getHand().remove(card);
                 playerTurn();
-                if (playerOrder.numPlayers == 2) {
+                if (getTotalNumberOfPlayers() == 2) {
                     playerTurn();
                 }
 
@@ -219,7 +222,7 @@ public class GameLogicModel {
                 for(int i = 0; i<5; i++) {//draw 5 cards
                     playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                 }
-                //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
+                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
                 playerTurn();
 
             }
@@ -228,7 +231,7 @@ public class GameLogicModel {
                 //for (int i = 0; i<playerOrder.getAllPlayersToArrayList().size(); i++){
                     //playerTurn();
                 //}
-                //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
+                JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
 
             } else if(card.getCardDarkType().equals(Card.DarkType.WILD_DRAW_COLOUR)){
                 playerOrder.getCurrentPlayer().getHand().remove(card);
@@ -282,7 +285,7 @@ public class GameLogicModel {
      */
     public void playerTurn() {
         //checking the players turn status
-        if (isTurnCompleted()) {
+        if (isTurnCompleted() == true) {
             if (direction) {
                 playerOrder.nextPlayerClockwise();
             } else {
@@ -290,8 +293,9 @@ public class GameLogicModel {
             }
         }
         else {
-            return;
+            turnCompleted = false;
         }
+        return;
     }
 
     public boolean getDirection(){
@@ -337,7 +341,6 @@ public class GameLogicModel {
     public void initializePlayers(){
       //  int players = Integer.parseInt(userInput);
         while (true) {
-
             try {
                 String userInput = JOptionPane.showInputDialog(null, "Enter the number of Players (2–4): ");
                 if(userInput == null) return;
@@ -391,63 +394,69 @@ public class GameLogicModel {
         if (getCurrentPlayer() != ai) {
             return null;
         }
-        Card top = getTopCard();
-        Card chosenCard = ai.chooseCardToPlay(top);
+        else {
+            Card top = getTopCard();
+            Card chosenCard = ai.chooseCardToPlay(top);
 
-        // No playable card → draw
-        if (chosenCard == null) {
-            //draw a card
-            Card drawn = drawOneorNullCard();
-            //if there are more cards to draw from draw pile, then ai player will draw a card
-            if(drawn != null) {
-                //adds the drawed card into its hand
-                ai.getHand().add(drawn);
-                JOptionPane.showMessageDialog(null, ai.getName() + " has drawn a card!");
+            // No playable card → draw
+            if (chosenCard == null) {
+                //draw a card
+                Card drawn = drawOneorNullCard();
+                //if there are more cards to draw from draw pile, then ai player will draw a card
+                if (drawn != null) {
+                    //adds the drawed card into its hand
+                    ai.getHand().add(drawn);
+                    JOptionPane.showMessageDialog(null, ai.getName() + " has drawn a card!");
+                    //setTurnCompleted(true);
+                    //playerTurn();
 
-            }
-           //ending ai turn and going to next player
-            setTurnCompleted(true);
-            playerTurn();
-            return null;
-        }
-        // If it's a rainbow card, let AI set its colour first
-        if (chosenCard.lightMode && chosenCard.getCardLightColour() == Card.LightColour.RAINBOW) {
-            Card.LightColour chosenColour = ai.chooseBestLightColour();
-            chosenCard.setCardLightColour(chosenColour.name());
-        }
-        else if (!chosenCard.lightMode && chosenCard.getCardDarkColour() == Card.DarkColour.RAINBOW) {
-            Card.DarkColour chosenColour = ai.chooseBestDarkColour();
-            chosenCard.setCardDarkColour(chosenColour.name());
-        }
 
-        boolean success = tryPlayCard(chosenCard);
-        if(!success){
-            setTurnCompleted(true);
-            playerTurn();
-            return null;
-        }
-
-       // tryPlayCard(chosenCard);
-        setTurnCompleted(true);
-        playerTurn();
-
-        if (lightMode){
-            Card.LightType lightType = chosenCard.getCardLightType();
-            if (lightType != Card.LightType.REVERSE && lightType != Card.LightType.SKIP &&
-                    lightType != Card.LightType.DRAW_ONE && lightType != Card.LightType.WILD_DRAW2 &&
-                    lightType != Card.LightType.FLIP_TO_DARK){
+                }
+                //ending ai turn and going to next player
+                //setTurnCompleted(true);
                 playerTurn();
+                return chosenCard;
             }
-            else {
-                Card.DarkType darkType = chosenCard.getCardDarkType();
-                if (darkType != Card.DarkType.REVERSE && darkType != Card.DarkType.SKIP_ALL &&
-                        darkType != Card.DarkType.DRAW_FIVE && darkType != Card.DarkType.WILD &&
-                        darkType != Card.DarkType.WILD_DRAW_COLOUR){
-                    playerTurn();
+
+            // If it's a rainbow card, let AI set its colour first
+            if (chosenCard.lightMode && chosenCard.getCardLightColour() == Card.LightColour.RAINBOW) {
+                Card.LightColour chosenColour = ai.chooseBestLightColour();
+                chosenCard.setCardLightColour(chosenColour.name());
+
+            } else if (!chosenCard.lightMode && chosenCard.getCardDarkColour() == Card.DarkColour.RAINBOW) {
+                Card.DarkColour chosenColour = ai.chooseBestDarkColour();
+                chosenCard.setCardDarkColour(chosenColour.name());
+            }
+
+            boolean success = tryPlayCard(chosenCard);
+            if (!success) {
+                //setTurnCompleted(false);
+                playerTurn();
+                return null;
+            }
+
+            // tryPlayCard(chosenCard);
+            setTurnCompleted(true);
+            playerTurn();
+
+            if (lightMode) {
+                Card.LightType lightType = chosenCard.getCardLightType();
+                if (lightType != Card.LightType.REVERSE && lightType != Card.LightType.SKIP &&
+                        lightType != Card.LightType.DRAW_ONE && lightType != Card.LightType.WILD_DRAW2 &&
+                        lightType != Card.LightType.FLIP_TO_DARK) {
+                    //playerTurn();
+                } else {
+                    Card.DarkType darkType = chosenCard.getCardDarkType();
+                    if (darkType != Card.DarkType.REVERSE && darkType != Card.DarkType.SKIP_ALL &&
+                            darkType != Card.DarkType.DRAW_FIVE && darkType != Card.DarkType.WILD &&
+                            darkType != Card.DarkType.WILD_DRAW_COLOUR) {
+                        //playerTurn();
+                    }
                 }
             }
+
+            return chosenCard;
         }
-        return chosenCard;
     }
 
     public void drawCardCurrentPlayer() {
@@ -644,7 +653,7 @@ public class GameLogicModel {
      * @return the card on the top of the deck if none, then null
      */
     private Card drawOneorNullCard() {
-        if (drawPile.isEmpty() || drawPile == null) {
+        if (drawPile == null || drawPile.isEmpty()) {
             return null;
         }
         else {
@@ -668,12 +677,6 @@ public class GameLogicModel {
             return drawPile.get(0);
         }
     }
-
-
-
-
-
-
 
 
     public PlayerOrder getPlayerOrder(){
