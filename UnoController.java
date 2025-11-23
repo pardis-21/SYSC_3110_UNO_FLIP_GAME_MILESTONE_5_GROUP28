@@ -261,6 +261,15 @@ public class UnoController implements ActionListener {
         if (!(current instanceof AIPlayer ai)) {
             return;
         }
+        //added a delay to really make it seem like you're playing against an AI model
+
+        try {
+            Thread.sleep(1500);
+
+        }
+        catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 
         Player before = current;
 

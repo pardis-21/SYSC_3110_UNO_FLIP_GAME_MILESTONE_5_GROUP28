@@ -223,10 +223,12 @@ public class GameLogicModel {
                 JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
                 playerTurn();
 
-            } else if (card.getCardDarkType().equals(Card.DarkType.SKIP_ALL)){
-                for (int i = 0; i<playerOrder.getAllPlayersToArrayList().size(); i++){
-                    playerTurn();
-                }
+            }
+            //SKIP EVERY PLAYER CARD
+            else if (card.getCardDarkType().equals(Card.DarkType.SKIP_ALL)){
+                //for (int i = 0; i<playerOrder.getAllPlayersToArrayList().size(); i++){
+                    //playerTurn();
+                //}
                 JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
 
             } else if(card.getCardDarkType().equals(Card.DarkType.WILD_DRAW_COLOUR)){
@@ -317,13 +319,13 @@ public class GameLogicModel {
     public ArrayList<Card> getPlayerHand(){
         return getCurrentPlayer().getHand();
     }
+
     /**
      * Gets the total number of players
      */
     public int getTotalNumberOfPlayers(){
         return playerOrder.getAllPlayersToArrayList().size();
     }
-
 
     /**
      * now asks "Is X an AI? (yes/no)".
@@ -378,9 +380,8 @@ public class GameLogicModel {
     }
 
     /**
-     * handles an ai players turn
+     * handles an AI players turn
      */
-
     public Card handleAIPlayer(AIPlayer ai) {
 
 
@@ -409,7 +410,8 @@ public class GameLogicModel {
         if (chosenCard.lightMode && chosenCard.getCardLightColour() == Card.LightColour.RAINBOW) {
             Card.LightColour chosenColour = ai.chooseBestLightColour();
             chosenCard.setCardLightColour(chosenColour.name());
-        } else if (!chosenCard.lightMode && chosenCard.getCardDarkColour() == Card.DarkColour.RAINBOW) {
+        }
+        else if (!chosenCard.lightMode && chosenCard.getCardDarkColour() == Card.DarkColour.RAINBOW) {
             Card.DarkColour chosenColour = ai.chooseBestDarkColour();
             chosenCard.setCardDarkColour(chosenColour.name());
         }
@@ -424,10 +426,6 @@ public class GameLogicModel {
         setTurnCompleted(true);
         return chosenCard;
     }
-
-
-
-
 
     public void drawCardCurrentPlayer() {
        if(!drawPile.isEmpty()){
@@ -520,9 +518,11 @@ public class GameLogicModel {
                     flipSide();
                     playerTurn();
                     break;
+
             }
 
-        } else { // dark mode
+        }
+        else { // dark mode
 
             switch (card.getCardDarkType()) {
 
@@ -537,11 +537,13 @@ public class GameLogicModel {
                 case DRAW_FIVE:
                    // playerOrder.getCurrentPlayer().getHand().remove(card);
                     playerTurn(); // skip this player
-                    for(int i = 0; i<5; i++) {//draw 5 cards
+                    for(int i = 0; i < 5; i++) {//draw 5 cards
                         playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
+                        drawPile.remove(0); //removing the card so it doesnt get to be used again by the pile
                     }
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
-                    playerTurn();
+                    //playerTurn();
+                    setTurnCompleted(true);
                     break;
 
                 case SKIP_ALL:
@@ -570,8 +572,6 @@ public class GameLogicModel {
     /**
      * handle ai player
      */
-
-
     public void flipSide() {
         // 1) Flip the global mode
         lightMode = !lightMode;
