@@ -45,23 +45,12 @@ public class UnoController implements ActionListener {
         viewFrame.discardPile.addActionListener(this);
         viewFrame.nextPlayerButton.addActionListener(this);
         viewFrame.UNOButton.addActionListener(this);
+
         model.startGame();
         updateView();
-        //checks for ai player
-        Player current = model.getCurrentPlayer();
-        if (current instanceof AIPlayer) {
-            Card played = model.handleAIPlayer((AIPlayer) current);
-            updateView();
-
-            if (played != null) {
-                viewFrame.showMessage(current.getName() + " played " + played);
-            } else {
-                viewFrame.showMessage(current.getName() + " drew a card.");
-            }
-
-
-        }
+        handleAITurnIfCurrent();
     }
+
 
 
     /**
@@ -71,6 +60,11 @@ public class UnoController implements ActionListener {
      * @param heldCard the card clicked by the player
      */
     public void onCardClicked(Card heldCard) {
+        if (model.getCurrentPlayer() instanceof AIPlayer) {
+            JOptionPane.showMessageDialog(null, "It's an AI player's turn. Click Next Player to continue.");
+            return;
+        }
+
         if (model.isTurnCompleted()) {
             JOptionPane.showMessageDialog(null, "Your turn is complete! Click on the next player button.");
             return;
@@ -157,7 +151,13 @@ public class UnoController implements ActionListener {
         Object source = e.getSource();
 
         if (source == viewFrame.drawPile) {
-            if(model.getTopCard().getCardDarkType().equals(Card.DarkType.WILD_DRAW_COLOUR) && !model.lightMode){
+
+            if (model.getCurrentPlayer() instanceof AIPlayer) {
+                JOptionPane.showMessageDialog(null, "It's an AI player's turn. Click Next Player to continue.");
+                return;
+            }
+
+            else if(model.getTopCard().getCardDarkType().equals(Card.DarkType.WILD_DRAW_COLOUR) && !model.lightMode){
                 if(!model.drawPile.getFirst().getCardDarkColour().equals(model.getTopCard().getCardDarkColour())){
                     onDrawClicked();
                     return;
@@ -175,18 +175,19 @@ public class UnoController implements ActionListener {
             JOptionPane.showMessageDialog(viewFrame,"Top card: " + model.getTopCard());
 
         }
-        else if (source == viewFrame.nextPlayerButton) { // making sure player actually plays b4 going to next player
+        else if (source == viewFrame.nextPlayerButton) {
+            // making sure player actually plays b4 going to next player
             if (model.getTopCard().getCardDarkType().equals(Card.DarkType.WILD_DRAW_COLOUR)
                     && !model.isTurnCompleted() && !model.lightMode) {
                 viewFrame.showMessage("You have to draw cards until you get a "
                         + model.getTopCard().getCardDarkColour() + " card!");
                 return;
-
             }
             else if (!model.isTurnCompleted()) {
                 viewFrame.showMessage("You must play or draw before ending your turn!");
                 return;
             }
+
             if (model.getCurrentPlayer().getHand().size() == 1 && !model.getCurrentPlayer().UNOClicked) {
                 JOptionPane.showMessageDialog(null,
                         "You had 'uno' card and didn't click UNO before ending your turn! draw 2 :P");
@@ -194,26 +195,18 @@ public class UnoController implements ActionListener {
                 onDrawClicked();
             }
 
-            // End current player's turn, move to next player
+            // End current player's turn and move to next player
             model.setTurnCompleted(false);
             model.playerTurn();
             viewFrame.scoreLabel.setText("Score: " + model.scores.get(model.getCurrentPlayer()));
             updateView();
 
-            //checks if its an AI here so it can play accordingly
-            Player current = model.getCurrentPlayer();
-            if (current instanceof AIPlayer) {
-                Card played = model.handleAIPlayer((AIPlayer) current);
-                updateView();
-
-                if (played != null) {
-                    viewFrame.showMessage(current.getName() + " played " + played);
-                } else {
-                    viewFrame.showMessage(current.getName() + " drew a card.");
-                }
-
-            }
+            // 🔹 If the new current player is AI, let it play right away
+            handleAITurnIfCurrent();
         }
+
+
+
 
         else if (source == viewFrame.UNOButton) {
             if (!(model.getCurrentPlayer().getHand().size() == 1)) {
@@ -262,4 +255,23 @@ public class UnoController implements ActionListener {
     public List<Card> getCurrentPlayerHand() {
         return model.getCurrentPlayer().getHand();
     }
+
+    private void handleAITurnIfCurrent() {
+        Player current = model.getCurrentPlayer();
+        if (!(current instanceof AIPlayer ai)) {
+            return;
+        }
+
+        // Let the AI take its turn
+        Card played = model.handleAIPlayer(ai);
+        updateView();
+
+        if (played != null) {
+            viewFrame.showMessage(current.getName() + " played " + played);
+        } else {
+            viewFrame.showMessage(current.getName() + " drew a card.");
+        }
+
+    }
+
 }

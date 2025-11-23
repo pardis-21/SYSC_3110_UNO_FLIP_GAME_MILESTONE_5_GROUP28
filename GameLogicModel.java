@@ -519,7 +519,6 @@ public class GameLogicModel {
                     playerTurn(); // skip this player
                     for(int i = 0; i<5; i++) {//draw 5 cards
                         playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
-                        drawPile.remove(0);
                     }
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and been skipped!");
                     playerTurn();
@@ -554,8 +553,10 @@ public class GameLogicModel {
 
 
     public void flipSide() {
+        // 1) Flip the global mode
         lightMode = !lightMode;
 
+        // 2) Force every card to match the global mode
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
             for (Card card : player.getHand()) {
                 card.lightMode = lightMode;
@@ -570,6 +571,9 @@ public class GameLogicModel {
             card.lightMode = lightMode;
         }
     }
+
+
+
 
 
 
