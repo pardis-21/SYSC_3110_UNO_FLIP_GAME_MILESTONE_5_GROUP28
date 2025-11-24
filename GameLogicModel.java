@@ -364,18 +364,34 @@ public class GameLogicModel {
                     break;
                 }
             }
-            if (!exists) {
-                String isAI = JOptionPane.showInputDialog(null, "is " + playerName + " an AI? (yes/no)");
-                boolean ai = isAI !=null && isAI.equalsIgnoreCase("yes");
+
+            if(!exists){
+                int choice = JOptionPane.showConfirmDialog(null, " is " + playerName + " an AI? ", "Player Type", JOptionPane.YES_NO_OPTION);
+
+                boolean ai = (choice == JOptionPane.YES_OPTION);
+
                 Player player;
-                if (ai) {
-                    player = new AIPlayer(playerName + " (AI)");
-                } else {
+                if(ai){
+                    player = new AIPlayer(playerName + "(AI)");
+                } else{
                     player = new Player(playerName);
                 }
                 playerOrder.addPlayer(player);
 
+
             }
+//            if (!exists) {
+//                String isAI = JOptionPane.showInputDialog(null, "is " + playerName + " an AI? (yes/no)");
+//                boolean ai = isAI !=null && isAI.equalsIgnoreCase("yes");
+//                Player player;
+//                if (ai) {
+//                    player = new AIPlayer(playerName + " (AI)");
+//                } else {
+//                    player = new Player(playerName);
+//                }
+//                playerOrder.addPlayer(player);
+//
+//            }
         }
 
         initScores();
@@ -403,9 +419,6 @@ public class GameLogicModel {
                     //adds the drawed card into its hand
                     ai.getHand().add(drawn);
                     JOptionPane.showMessageDialog(null, ai.getName() + " has drawn a card!");
-
-
-
                 }
                 setTurnCompleted(true);
                 playerTurn();
@@ -431,6 +444,8 @@ public class GameLogicModel {
                 playerTurn();
                 return null;
             }
+            JOptionPane.showMessageDialog(null,
+                    ai.getName() + " played " + chosenCard.toString());
 
             // tryPlayCard(chosenCard);
             setTurnCompleted(true);

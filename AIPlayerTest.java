@@ -1,6 +1,10 @@
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.*;
+
+import static org.junit.Assert.assertEquals;
+//import org.junit.jupiter.api.*;
 
 /**
  * This class is testing the methods of the AIPlayer test.
@@ -17,8 +21,8 @@ public class AIPlayerTest {
     private AIPlayer aiPlayer;
     private Player human;
 
-    @org.junit.jupiter.api.BeforeEach
-    void setUp() {
+   // @org.junit.jupiter.api.BeforeEach
+    public void setUp() {
         gameLogicModel = new GameLogicModel();
         playerOrder = new PlayerOrder();
         aiPlayer = new AIPlayer("CHATGPT");
@@ -47,15 +51,15 @@ public class AIPlayerTest {
         Card chosen = aiPlayer.chooseCardToPlay(gameLogicModel.getTopCard());
         assertEquals(card,chosen);
     }
-    @org.junit.jupiter.api.Test
+   // @org.junit.jupiter.api.Test
     void chooseCardToPlay() {
     }
 
-    @org.junit.jupiter.api.Test
+  //  @org.junit.jupiter.api.Test
     void chooseBestLightColour() {
     }
 
-    @org.junit.jupiter.api.Test
+  //  @org.junit.jupiter.api.Test
     void chooseBestDarkColour() {
     }
 }
