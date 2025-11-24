@@ -283,17 +283,12 @@ public class GameLogicModel {
      */
     public void playerTurn() {
         //checking the players turn status
-        if (isTurnCompleted() == true) {
-            if (direction) {
-                playerOrder.nextPlayerClockwise();
-            } else {
-                playerOrder.nextPlayerCounterClockwise();
-            }
+        if (direction) {
+            playerOrder.nextPlayerClockwise();
+        } else {
+            playerOrder.nextPlayerCounterClockwise();
         }
-        else {
-            turnCompleted = false;
-        }
-        return;
+        turnCompleted = false;
     }
 
     public boolean getDirection(){
