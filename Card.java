@@ -226,6 +226,12 @@ public class Card {
         this.cardLightColour = LightColour.valueOf(colour);
     }
 
+    public void setCardLightType(LightType lightType) {
+        this.cardLightType = lightType;
+    }
+
+
+
     /**
      * Sets the colour of this card using a string name.
      *
@@ -234,6 +240,10 @@ public class Card {
      */
     public void setCardDarkColour(String colour) {
         this.cardDarkColour = DarkColour.valueOf(colour);
+    }
+
+    public void setCardDarkType(DarkType darkType) {
+        this.cardDarkType = darkType;
     }
 
 

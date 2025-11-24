@@ -7,7 +7,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 /**
  * This test class tests the UNO Game's Logic by the JUnit Framework.
- * Here, all methods are tested indivudally to check correctness.
+ * Here, all methods are tested individually to check correctness.
  *
  * @Author Charis Nobossi 101297742
  * @Author Anvita Ala 101301514

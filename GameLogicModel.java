@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
-import java.util.Scanner;
 
 /**
  * The GameLogic class manages the main gameplay flow for an UNO-like card game.
@@ -15,7 +14,7 @@ import java.util.Scanner;
 public class GameLogicModel {
     private PlayerOrder playerOrder;
     private ArrayList<Card> cards;
-    private final ArrayList<Card> discardPile;
+    public final ArrayList<Card> discardPile;
     public final ArrayList<Card> drawPile;
     private boolean roundEnded = false;
     //private ArrayList<Card> flipPile; for future use

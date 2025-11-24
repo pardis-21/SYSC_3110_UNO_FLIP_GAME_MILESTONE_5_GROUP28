@@ -1,9 +1,15 @@
 import org.junit.*;
-
 import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
+/**
+ * This class tests the methods in the Player Class.
+ *
+ * @Author Pardis Ehsani 101300400
+ * @Author Charis Nobossi 101297742
+ * @Author Anvita Ala 101301514
+ * @Author Pulcherie Mbaye 101302394
+ */
 public class PlayerTest {
 	private Player player;
 	private ArrayList<Card> discardPile;

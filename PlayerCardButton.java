@@ -14,7 +14,6 @@ public class PlayerCardButton extends JButton {
     private Card.LightColour cardColour;
     private Card card;
 
-
     /**
      * constructs a PlayerCardButton for the given card
      * This button stores the card's type and colour, allowing the controller to determine

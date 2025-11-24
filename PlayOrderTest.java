@@ -1,9 +1,15 @@
 import org.junit.*;
-
 import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
+/**
+ * This class tests the PlayerOrder class that is implemented using a Circular Doubly Linked List.
+ *
+ * @Author Pardis Ehsani 101300400
+ * @Author Charis Nobossi 101297742
+ * @Author Anvita Ala 101301514
+ * @Author Pulcherie Mbaye 101302394
+ */
 public class PlayOrderTest {
     private PlayerOrder playerOrder;
 
