@@ -498,20 +498,21 @@ public class GameLogicModel {
                     direction = !direction;
                   //  playerOrder.getCurrentPlayer().getHand().remove(card);
 
-                    setTurnCompleted(true);
+                    //setTurnCompleted(true);
                     playerTurn();
                     if (numPlayers == 2) {
-                        setTurnCompleted(true);
+                        //setTurnCompleted(true);
                         playerTurn();
                     }
                     JOptionPane.showMessageDialog(null, "DIRECTION IS SWITCHED !");
-                    setTurnCompleted(false);
+                    //setTurnCompleted(false);
                     break;
 
                 case SKIP:
                   //  playerOrder.getCurrentPlayer().getHand().remove(card);
 
-                    setTurnCompleted(true);
+                    //advance once more to skip the next player
+                    //setTurnCompleted(true);
                     playerTurn(); // skip this player
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
                     setTurnCompleted(false);
@@ -520,39 +521,42 @@ public class GameLogicModel {
 
                 case DRAW_ONE:
                    // playerOrder.getCurrentPlayer().getHand().remove(card);
-                    setTurnCompleted(true);
-                    playerTurn();
+                    //next players draw 1 cards and then is also skipped so it moves onto the next next player
+                    //setTurnCompleted(true);
+                    playerTurn(); //skip to the next player
                     if(!drawPile.isEmpty()) {
+                        //make the player pick up a card
                         playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                         drawPile.remove(0);
 
                     }
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
-                    setTurnCompleted(true);
-                    playerTurn();
-                    setTurnCompleted(false);
-
+                    //setTurnCompleted(true);
+                    playerTurn(); //advance to the next next player
+                    //setTurnCompleted(false);
                     break;
 
                 case WILD_DRAW2:
-                    setTurnCompleted(true);
+                    //setTurnCompleted(true);
                     playerTurn();
                     for(int i = 0;i < 2 && !drawPile.isEmpty(); i++) {
                         playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                         drawPile.remove(0);
                     }
 
-                   JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
-                    setTurnCompleted(true);
+                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
+                    //setTurnCompleted(true);
                     playerTurn();
-                    setTurnCompleted(false);
+                    //setTurnCompleted(false);
                     break;
 
                 case FLIP_TO_DARK:
                     //playerOrder.getCurrentPlayer().getHand().remove(card);
+                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has flipped the game!");
                     flipSide();
                     playerTurn();
                     break;
+
                 default:
                     break;
 
@@ -569,10 +573,11 @@ public class GameLogicModel {
                     if (numPlayers == 2) {
                         playerTurn();
                     }
+                    JOptionPane.showMessageDialog(null, "DIRECTION IS SWITCHED !");
                     break;
 
                 case DRAW_FIVE:
-                    setTurnCompleted(true);
+                    //setTurnCompleted(true);
                     playerTurn(); // skip this player
                     for (int i = 0; i < 5; i++) {//draw 5 cards
                         Card drawCard = drawOneorNullCard();
@@ -586,9 +591,9 @@ public class GameLogicModel {
                     //after the cards have been dealt to that one player who had to DRAW FIVE
                     //skip to the next player automatically
 
-                    setTurnCompleted(true);
+                    //setTurnCompleted(true);
                     playerTurn();
-                    setTurnCompleted(false);
+                    //setTurnCompleted(false);
                     break;
 
                 case SKIP_ALL:
@@ -597,7 +602,7 @@ public class GameLogicModel {
                         //playerTurn();
                     //}
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has skipped all other players!");
-                    setTurnCompleted(false); //player plays again
+                    //setTurnCompleted(false); //player plays again
                     break;
 
                 case WILD_DRAW_COLOUR:
@@ -609,18 +614,19 @@ public class GameLogicModel {
                     if (chosenCard == null){
                         //if no dark mode card, automatically skip the turn
 
-                        setTurnCompleted(true);
+                        //setTurnCompleted(true);
                         playerTurn();
-                        setTurnCompleted(false);
+                        //setTurnCompleted(false);
                         break;
                     }
-                    setTurnCompleted(true);
+                    //setTurnCompleted(true);
                     playerTurn();
-                    setTurnCompleted(false);
+                    //setTurnCompleted(false);
                     break;
 
                 case FLIP_TO_LIGHT:
                    // playerOrder.getCurrentPlayer().getHand().remove(card);
+                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has flipped the game!");
                     flipSide();
                     playerTurn();
                     break;
