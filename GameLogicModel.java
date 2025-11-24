@@ -502,18 +502,24 @@ public class GameLogicModel {
                 case REVERSE:
                     direction = !direction;
                   //  playerOrder.getCurrentPlayer().getHand().remove(card);
+
+                    setTurnCompleted(true);
                     playerTurn();
                     if (numPlayers == 2) {
+                        setTurnCompleted(true);
                         playerTurn();
                     }
+                    JOptionPane.showMessageDialog(null, "DIRECTION IS SWITCHED !");
+                    setTurnCompleted(false);
                     break;
 
                 case SKIP:
                   //  playerOrder.getCurrentPlayer().getHand().remove(card);
 
+                    setTurnCompleted(true);
                     playerTurn(); // skip this player
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has been skipped!");
-
+                    setTurnCompleted(false);
                     //playerTurn();
                     break;
 
@@ -527,23 +533,24 @@ public class GameLogicModel {
 
                     }
                     JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 1 card and been skipped!");
+                    setTurnCompleted(true);
+                    playerTurn();
+                    setTurnCompleted(false);
 
-                    //playerTurn();
                     break;
 
                 case WILD_DRAW2:
-                  //  playerOrder.getCurrentPlayer().getHand().remove(card);
+                    setTurnCompleted(true);
                     playerTurn();
                     for(int i = 0;i < 2 && !drawPile.isEmpty(); i++) {
                         playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
                         drawPile.remove(0);
                     }
-                    //playerOrder.getCurrentPlayer().getHand().add(drawPile.get(0));
-                   // drawPile.remove(0);
 
                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
-
+                    setTurnCompleted(true);
                     playerTurn();
+                    setTurnCompleted(false);
                     break;
 
                 case FLIP_TO_DARK:
@@ -570,6 +577,7 @@ public class GameLogicModel {
                     break;
 
                 case DRAW_FIVE:
+                    setTurnCompleted(true);
                     playerTurn(); // skip this player
                     for (int i = 0; i < 5; i++) {//draw 5 cards
                         Card drawCard = drawOneorNullCard();
@@ -579,11 +587,13 @@ public class GameLogicModel {
                         }
                         playerOrder.getCurrentPlayer().getHand().add(drawCard);
                     }
+                    JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 5 cards and  been skipped! !");
                     //after the cards have been dealt to that one player who had to DRAW FIVE
                     //skip to the next player automatically
 
                     setTurnCompleted(true);
                     playerTurn();
+                    setTurnCompleted(false);
                     break;
 
                 case SKIP_ALL:
@@ -597,17 +607,21 @@ public class GameLogicModel {
 
                 case WILD_DRAW_COLOUR:
                    // playerOrder.getCurrentPlayer().getHand().remove(card);
-                    playerTurn();
+                    //playerTurn();
                     Player attackedPlayer = playerOrder.getCurrentPlayer();
-
                     //checkign to see if the chosencard actually exists and checking to see if its a dark mode card color
                     Card.DarkColour chosenCard = card.getCardDarkColour();
                     if (chosenCard == null){
                         //if no dark mode card, automatically skip the turn
-                        playerTurn();
+
                         setTurnCompleted(true);
+                        playerTurn();
+                        setTurnCompleted(false);
                         break;
                     }
+                    setTurnCompleted(true);
+                    playerTurn();
+                    setTurnCompleted(false);
                     break;
 
                 case FLIP_TO_LIGHT:
