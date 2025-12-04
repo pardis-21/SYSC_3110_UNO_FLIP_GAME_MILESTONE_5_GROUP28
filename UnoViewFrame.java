@@ -24,6 +24,8 @@ public class UnoViewFrame extends JFrame {
     public JLabel scoreLabel;
     //making a top panel with both the score and the round cuz i want it to be cleaner
     public JPanel topPanel;
+    //makeing a redo/undo panel for clearness and for these buttons to not overlap antyhign
+    public JPanel undoredoPanel;
 
     public JButton nextPlayerButton;
     //private ArrayList<Player> playerNames;
@@ -178,8 +180,18 @@ public class UnoViewFrame extends JFrame {
         redoButton.setBackground(Color.WHITE);
 
         //ADDING UNDO AND REDO BUTTONS TO THE FRAME
-        this.add(undoButton, BorderLayout.EAST);
-        this.add(redoButton, BorderLayout.WEST);
+        JPanel undoredoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        undoredoPanel.setOpaque(false);
+
+        undoredoPanel.add(undoButton);
+        undoredoPanel.add(redoButton);
+
+
+        //topPanel.add(undoredoPanel, BorderLayout.EAST);
+
+        this.add(undoredoPanel, BorderLayout.NORTH);
+
+
 
 
 

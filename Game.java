@@ -30,9 +30,4 @@ public class Game {
             controller.setView(view);
         }
 
-
-
-
-
-
 }
