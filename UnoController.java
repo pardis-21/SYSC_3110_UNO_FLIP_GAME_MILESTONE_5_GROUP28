@@ -60,6 +60,8 @@ public class UnoController implements ActionListener {
      * @param heldCard the card clicked by the player
      */
     public void onCardClicked(Card heldCard) {
+
+        Card previousTopCard = model.getTopCard();
         if (model.getCurrentPlayer() instanceof AIPlayer) {
             JOptionPane.showMessageDialog(null, "It's an AI player's turn. Click Next Player to continue.");
             model.setTurnCompleted(false);
@@ -71,7 +73,6 @@ public class UnoController implements ActionListener {
             return;
         }
 
-        Card previousTopCard = model.getTopCard();
         int previousPlayerHandSize = model.getCurrentPlayer().getHand().size();
 
         boolean success = model.tryPlayCard(heldCard);
@@ -219,10 +220,11 @@ public class UnoController implements ActionListener {
             // TESTING SOMETHING OUT
             if (commandManager.isUndoable()){
                 commandManager.undo();
-                viewFrame.updateHand(model.getPlayerHand());
-                viewFrame.updateTopCard(model.getTopCard());
-                viewFrame.repaint();
-                viewFrame.revalidate();
+
+                //viewFrame.updateHand(model.getPlayerHand());
+                //viewFrame.updateTopCard(model.getTopCard());
+                //viewFrame.repaint();
+                //viewFrame.revalidate();
 
                 updateView();
                 model.setTurnCompleted(false); //do not move to the next player
@@ -236,10 +238,10 @@ public class UnoController implements ActionListener {
         else if (source == viewFrame.redoButton) {
             if (commandManager.isRedoable()){
                 commandManager.redo();
-                viewFrame.updateHand(model.getPlayerHand());
-                viewFrame.updateTopCard(model.getTopCard());
-                viewFrame.repaint();
-                viewFrame.revalidate();
+                //viewFrame.updateHand(model.getPlayerHand());
+                //viewFrame.updateTopCard(model.getTopCard());
+                //viewFrame.repaint();
+                //viewFrame.revalidate();
                 updateView();
                 model.setTurnCompleted(true);
                 JOptionPane.showMessageDialog(null, "You redoed your last move!");

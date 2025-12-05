@@ -766,17 +766,6 @@ public class GameLogicModel {
     }
 
 
-    public void undo() {
-        UNOCommandManager commandManager = new UNOCommandManager();
-        commandManager.undo();
-    }
-
-    public void redo() {
-        UNOCommandManager commandManager = new UNOCommandManager();
-         commandManager.redo();
-    }
-
-
     //RESETTING THE GAME AND STUFF
 
     public void resetRound(){
