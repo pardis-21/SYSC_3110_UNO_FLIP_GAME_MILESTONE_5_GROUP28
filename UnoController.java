@@ -112,13 +112,14 @@ public class UnoController implements ActionListener {
                 System.exit(0);
             }
             else if(("New round").equals(selectedOption)){
-                JOptionPane.showMessageDialog(null, "New round!");
-                model.startGame();
+                model.startNewRound();
                 roundNumber++;
                 commandManager.clear();
+                JOptionPane.showMessageDialog(null, "New round!\n" + "Scores are kept!\n" + "First Player: " + model.getFirstPlayerName());
+
             }
             else{ // start new game
-                model.startGame();
+                model.startNewGame();
                 model.setTurnCompleted(false);
                 roundNumber++;
                 roundNumber = 1;

@@ -112,6 +112,10 @@ public class Player {
         hand.clear();
     }
 
+    @Override
+    public String toString(){
+        return getName();
+    }
 
 
 }

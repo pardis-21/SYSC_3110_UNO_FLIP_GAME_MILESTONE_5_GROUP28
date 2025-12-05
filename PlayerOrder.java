@@ -169,11 +169,19 @@ public class PlayerOrder {
 
     }
 
+
+    public void setToFirstPlayer(){
+        currentPlayer = firstPlayer;
+    }
+
     /**
      * Returns a string representation of the order of the PlayerOrder class
      */
     @Override
     public String toString() {
+        if (isEmpty()){
+            return " No Players";
+        }
         return super.toString();
     }
 }

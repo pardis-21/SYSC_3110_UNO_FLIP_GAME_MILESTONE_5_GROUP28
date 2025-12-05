@@ -56,6 +56,7 @@ public class GameLogicModel {
     }
 
     public ArrayList<Card> createDeckofCards(){
+        drawPile.clear();
         //populating the cards with a card to make a deck (108 cards)
         for (int i = 0; i < 108; i++){
             drawPile.add(new Card());
@@ -79,7 +80,7 @@ public class GameLogicModel {
      */
     //at the beginning of the game, each player is dealt 7 cards
     public void dealCardsBeginning(){
-        if (drawPile.isEmpty()) return;
+        //if (drawPile.isEmpty()) return;
 
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
             while (player.getHand().size() < SEVEN) {
@@ -821,19 +822,39 @@ public class GameLogicModel {
         for (Player player : playerOrder.getAllPlayersToArrayList()) {
             player.clearHand();
         }
-
-        //draw pile rebuilt
-        drawPile.addAll(discardPile);
-        Collections.shuffle(discardPile);
-
+        createDeckofCards();
         Collections.shuffle(drawPile);
 
         dealCardsBeginning();
 
+        forceLightMode(true);
+        setDirection(true);
+        setTurnCompleted(false);
+        setFirstPlayer();
+
+        //JOptionPane.showMessageDialog(null, playerOrder.getCurrentPlayer().getName() + " has drawn 2 cards and been skipped!");
+        //draw pile rebuilt
+        drawPile.addAll(discardPile);
+
+        dealCardsBeginning();
     }
 
-//    public String getCurrentRoundNumber() {
-//        //UnoViewFrame view = new UnoViewFrame()
-//
-//    }
+    public Player getFirstPlayerName(){
+        return playerOrder.getCurrentPlayer();
+
+    }
+
+    public void setFirstPlayer(){
+        playerOrder.setToFirstPlayer();
+    }
+
+    public void startNewGame(){
+        scores.clear();
+        initializePlayers();
+        initScores();
+        startGame();
+        //forceLightMode(true);
+    }
+
+
 }
