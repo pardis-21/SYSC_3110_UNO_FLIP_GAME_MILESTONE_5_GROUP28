@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -10,10 +11,10 @@ import java.util.ArrayList;
  * @Author Pardis Ehsani 101300400
  */
 
-public class Player {
+public class Player implements Serializable {
     private final String name;
-    private final ArrayList<Card> hand; //cards currently in the players hand
-    public boolean UNOClicked = false; //has uno been clicked when there's 1 card left
+    private final ArrayList<Card> hand; // cards currently in the players hand
+    public boolean UNOClicked = false; // has uno been clicked when there's 1 card left
 
 
     /**
@@ -85,6 +86,7 @@ public class Player {
         if(cardChosen.playCardOnAnother(topCard)){
             hand.remove(index);
             discardPile.add(cardChosen);
+
             System.out.println(name + " played " + cardChosen);
             return true;
         }

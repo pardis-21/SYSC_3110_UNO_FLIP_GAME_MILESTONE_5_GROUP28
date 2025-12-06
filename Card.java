@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Random;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @Author Pulcherie Mbaye 101302394
  * @Author Pardis Ehsani 101300400
  */
-public class Card {
+public class Card implements Serializable {
     private static final Random random = new Random();
 
 

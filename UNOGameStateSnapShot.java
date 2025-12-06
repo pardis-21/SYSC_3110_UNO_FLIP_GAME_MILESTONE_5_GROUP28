@@ -1,50 +1,64 @@
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * This class creates a little image for saving info of the game
- * When you close the game, this class will provide the necessary functinos
- * to save the state's information such as the game, the score, the cards in that
- * players hand and whos turn it is.
- * @Author Charis Nobossi 101297742
- * @Author Anvita Ala 101301514
- * @Author Pardis Ehsani 101300400
- * @Author Pulcherie Mbaye 101302394
- */
 public class UNOGameStateSnapShot implements Serializable {
-    private GameLogicModel gameLogicModel;
-    private Card playerCard;
-    private ArrayList<Card> playerHand;
-    private ArrayList<Card> drawPile;
-    private ArrayList<Card> discardPile;
-    private ArrayList<Player> currentPlayers;
-    private Player currentPlayer;
-    public final Map<Player, Integer> scores = new HashMap<>();
-    private static final int SEVEN = 7;
-    private boolean turnCompleted = false;
-    private int numPlayers = 0;
-    private boolean direction;
-    public boolean lightMode = true;
-    private boolean roundEnded = false;
 
+    public final List<Player> playersInOrder;
+    public final int currentPlayerIndex;
 
-    public UNOGameStateSnapShot(ArrayList<Player> currentPlayers, ArrayList<Card> currentDrawPile, ArrayList<Card> currentDiscardPile, boolean lightMode, Player currentPlayer, boolean currentDirection){
-        this.currentPlayers = createStateSnapShotPlayers(currentPlayers);
-        this.drawPile = new ArrayList<>(drawPile);
-        this.discardPile = new ArrayList<>(discardPile);
-        this.currentPlayer = currentPlayer;
-        this.lightMode = lightMode;
-        this.direction =  currentDirection;
+    public final List<Card> drawPile;
+    public final List<Card> discardPile;
 
+    public final Map<Player, Integer> scores;
+
+    public final boolean lightMode;
+    public final boolean direction;
+    public final boolean roundEnded;
+
+    public UNOGameStateSnapShot(GameLogicModel game) {
+        // Store references directly
+        this.playersInOrder = new ArrayList<>(game.playerOrder.getAllPlayersToArrayList());
+        this.currentPlayerIndex = game.playerOrder.getAllPlayersToArrayList().indexOf(game.playerOrder.getCurrentPlayer());
+
+        this.drawPile = new ArrayList<>(game.drawPile);
+        this.discardPile = new ArrayList<>(game.discardPile);
+
+        this.scores = new HashMap<>(game.scores);
+
+        this.lightMode = game.lightMode;
+        this.direction = game.direction;
+        this.roundEnded = game.roundEnded;
     }
 
-    private ArrayList<Player> createStateSnapShotPlayers(ArrayList<Player> currentPlayers){
-        ArrayList<Player> playersStateSnapShot = new ArrayList<>();
-        for (Player player : currentPlayers){
-            playersStateSnapShot.add(player);
+    public void restore(GameLogicModel game) {
+
+        // 1) Restore PlayerOrder
+        PlayerOrder newOrder = new PlayerOrder();
+        for (Player p : playersInOrder) {
+            newOrder.addPlayer(p); // just add the existing object
         }
-        return playersStateSnapShot;
+
+        // 2) Set current player
+        if (!playersInOrder.isEmpty() && currentPlayerIndex >= 0 && currentPlayerIndex < playersInOrder.size()) {
+            newOrder.setCurrentPlayer(playersInOrder.get(currentPlayerIndex));
+        }
+
+        game.playerOrder = newOrder;
+
+        // 3) Restore piles
+        game.drawPile.clear();
+        game.drawPile.addAll(drawPile);
+
+        game.discardPile.clear();
+        game.discardPile.addAll(discardPile);
+
+        // 4) Restore scores
+        game.scores.clear();
+        game.scores.putAll(scores);
+
+        // 5) Restore mode
+        game.lightMode = lightMode;
+        game.direction = direction;
+        game.roundEnded = roundEnded;
     }
-
-
 }

@@ -1,7 +1,7 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ import java.util.List;
  *
  */
 
-public class UnoController implements ActionListener {
+public class UnoController implements ActionListener, Serializable {
     private UnoViewFrame viewFrame;
     private final GameLogicModel model;
     private JLabel roundLabel;
@@ -51,6 +51,11 @@ public class UnoController implements ActionListener {
         model.startGame();
         updateView();
         handleAITurnIfCurrent();
+
+        viewFrame.saveItem.addActionListener(this);
+        viewFrame.loadItem.addActionListener(this);
+
+
     }
 
     /**
@@ -250,14 +255,52 @@ public class UnoController implements ActionListener {
                 //viewFrame.revalidate();
                 updateView();
                 model.setTurnCompleted(true);
-                JOptionPane.showMessageDialog(null, "You redoed your last move!");
+                JOptionPane.showMessageDialog(null, "You redid your last move!");
 
             }
+
             else {
                 JOptionPane.showMessageDialog(null, "You nothing to redo!");
                 //model.redo()
             }
         }
+        else if (source == viewFrame.saveItem) {
+            String filePath = JOptionPane.showInputDialog(viewFrame,
+                    "Enter the file path to save the game:",
+                    "Save Game",
+                    JOptionPane.QUESTION_MESSAGE
+            );
+
+            if (filePath != null && !filePath.trim().isEmpty()) {
+                saveGame(filePath);
+            } else {
+                JOptionPane.showMessageDialog(viewFrame,
+                        "No file path entered. Game not saved.",
+                        "Save Error",
+                        JOptionPane.WARNING_MESSAGE
+                );
+            }
+        }
+
+        else if (source == viewFrame.loadItem) {
+            String filePath = JOptionPane.showInputDialog(viewFrame,
+                    "Enter the file path to load the game:",
+                    "Load Game",
+                    JOptionPane.QUESTION_MESSAGE
+            );
+
+            if (filePath != null && !filePath.trim().isEmpty()) {
+                loadGame(filePath);
+            } else {
+                JOptionPane.showMessageDialog(viewFrame,
+                        "No file path entered. Game not loaded.",
+                        "Load Error",
+                        JOptionPane.WARNING_MESSAGE
+                );
+            }
+        }
+
+
     }
 
 
@@ -328,5 +371,37 @@ public class UnoController implements ActionListener {
                updateView();
        }
     }
+
+    public void saveGame(String filePath) {
+        UNOGameStateSnapShot state = new UNOGameStateSnapShot(model);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+            oos.writeObject(state);
+            JOptionPane.showMessageDialog(viewFrame, "Game saved successfully!", "Game Saved", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(viewFrame, "Failed to save game:\n" + e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void loadGame(String filePath) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            Object obj = ois.readObject();
+            if (!(obj instanceof UNOGameStateSnapShot)) {
+                JOptionPane.showMessageDialog(viewFrame, "Selected file is not a valid UNO game save.", "Load Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            UNOGameStateSnapShot state = (UNOGameStateSnapShot) obj;
+            model.loadFromSavedState(state);
+            JOptionPane.showMessageDialog(viewFrame, "Game loaded successfully!", "Load Game", JOptionPane.INFORMATION_MESSAGE);
+            updateView(); // ensure the view is updated after loading
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(viewFrame, "File not found:\n" + e.getMessage(), "Load Error", JOptionPane.ERROR_MESSAGE);
+        } catch (InvalidClassException e) {
+            JOptionPane.showMessageDialog(viewFrame, "Invalid class file:\n" + e.getMessage(), "Load Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(viewFrame, "Failed to load game:\n" + e.getMessage(), "Load Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 
 }

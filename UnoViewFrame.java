@@ -1,6 +1,10 @@
 import javax.swing.*;
 import javax.swing.JOptionPane;
 import java.awt.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +20,7 @@ import java.util.List;
  * @Author Pulcherie Mbaye 101302394
  */
 
-public class UnoViewFrame extends JFrame {
+public class UnoViewFrame extends JFrame implements Serializable {
 
     private JPanel cardPanel; // panel for current player's cards
     public JPanel scorePanel; // panel for the player's score
@@ -55,6 +59,9 @@ public class UnoViewFrame extends JFrame {
     public int roundNumber;
 
 
+    public JMenuItem saveItem;
+    public JMenuItem loadItem;
+
     /**
      * Constructs the UNO game frame, initialising all ui components
      * @param model the model managing the game logic
@@ -62,7 +69,7 @@ public class UnoViewFrame extends JFrame {
     public UnoViewFrame(GameLogicModel model){
         super("Uno");
         this.model = model;
-        //controller = new UnoController(model);
+        controller = new UnoController(model);
         this.playerCardButtons = new ArrayList<>();
         //playerNames = new ArrayList<>();
 
@@ -157,6 +164,25 @@ public class UnoViewFrame extends JFrame {
         //this.add(undoredoPanel, BorderLayout.EAST);
 
 
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+
+        saveItem = new JMenuItem("Save Game");
+        saveItem.setActionCommand("SaveGame");
+
+        loadItem = new JMenuItem("Load Game");
+        loadItem.setActionCommand("LoadGame");
+
+        JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(e -> System.exit(0));
+
+        fileMenu.add(saveItem);
+        fileMenu.add(loadItem);
+        fileMenu.addSeparator();
+        fileMenu.add(exitItem);
+
+        menuBar.add(fileMenu);
+        this.setJMenuBar(menuBar);
 
 
 
@@ -361,6 +387,18 @@ public class UnoViewFrame extends JFrame {
      */
     public void setController(UnoController controller) {
         this.controller = controller;
+    }
+
+
+    public void saveGame(String filename) {
+        try (ObjectOutputStream out = new ObjectOutputStream(
+                new FileOutputStream(filename))) {
+            out.writeObject(this);
+            out.flush();
+            System.out.println("Game saved!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

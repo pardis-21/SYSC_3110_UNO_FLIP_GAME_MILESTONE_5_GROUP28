@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.text.View;
 import java.awt.*;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -12,13 +13,13 @@ import java.util.*;
  * @Author Anvita Ala 101301514
  * @Author Pulcherie Mbaye 101302394
  */
-public class GameLogicModel {
-    private PlayerOrder playerOrder;
+public class GameLogicModel implements Serializable {
+    public PlayerOrder playerOrder;
     private ArrayList<Card> cards;
-    public final ArrayList<Card> discardPile;
+    public ArrayList<Card> discardPile;
     public final ArrayList<Card> drawPile;
-    private boolean roundEnded = false;
-    private boolean direction; //clockwise or counterclockwise
+    public boolean roundEnded = false;
+    public boolean direction; //clockwise or counterclockwise
     public final Map<Player, Integer> scores = new HashMap<>();
     private static final int SEVEN = 7;
     private boolean turnCompleted = false;
@@ -349,54 +350,74 @@ public class GameLogicModel {
      */
     public void initializePlayers(){
       //  int players = Integer.parseInt(userInput);
-        while (true) {
-            try {
-                String userInput = JOptionPane.showInputDialog(null, "Enter the number of Players (2–4): ");
-                if(userInput == null) return;
-                numPlayers = Integer.parseInt(userInput);
-                if (numPlayers < 2 || numPlayers > 4) {
+        String[] options = {"New game", "Load game", "Exit"};
+        Object selectedOption = JOptionPane.showInputDialog(
+                null,
+                "Welcome to UNO! Select an option.",
+                "Selection", // Title of the dialog
+                JOptionPane.QUESTION_MESSAGE, // Message type (e.g., QUESTION_MESSAGE, INFORMATION_MESSAGE)
+                null, // Icon (null for default)
+                options, // Array of options for the dropdown
+                options[0] // Default selected option
+        );
+        if (("Load game").equals(selectedOption)) {
+            String file = JOptionPane.showInputDialog(null, "Enter the file to load from: ");
+
+
+        } else if (("Exit").equals(selectedOption)) {
+            JOptionPane.showMessageDialog(null, "BYEBYE!");
+            System.exit(0);
+
+        } else {
+
+            while (true) {
+                try {
+                    String userInput = JOptionPane.showInputDialog(null, "Enter the number of Players (2–4): ");
+                    if (userInput == null) return;
+                    numPlayers = Integer.parseInt(userInput);
+                    if (numPlayers < 2 || numPlayers > 4) {
+                        JOptionPane.showMessageDialog(null, "Invalid number of players! Please enter 2–4.");
+                    } else
+                        break;
+                } catch (InputMismatchException e) {
                     JOptionPane.showMessageDialog(null, "Invalid number of players! Please enter 2–4.");
-                } else
-                    break;
-            }
-            catch (InputMismatchException e) {
-                JOptionPane.showMessageDialog(null, "Invalid number of players! Please enter 2–4.");
-            }
-        }
-
-        while (playerOrder.getAllPlayersToArrayList().size() < numPlayers) {
-            String playerName = JOptionPane.showInputDialog(null, "Enter player name");
-            if(playerName == null) return;
-
-            //make sure 2 players by same name don't exist
-            boolean exists = false;
-            for (Player player : playerOrder.getAllPlayersToArrayList()) {
-                if (player.getName().equals(playerName)) {
-                    JOptionPane.showMessageDialog(null, "That player already exists!");
-                    exists = true;
-                    break;
                 }
             }
 
-            if(!exists){
-                int choice = JOptionPane.showConfirmDialog(null, " is " + playerName + " an AI? ", "Player Type", JOptionPane.YES_NO_OPTION);
+            while (playerOrder.getAllPlayersToArrayList().size() < numPlayers) {
+                String playerName = JOptionPane.showInputDialog(null, "Enter player name");
+                if (playerName == null) return;
 
-                boolean ai = (choice == JOptionPane.YES_OPTION);
-
-                Player player;
-                if(ai){
-                    player = new AIPlayer(playerName + "(AI)");
-                } else{
-                    player = new Player(playerName);
+                //make sure 2 players by same name don't exist
+                boolean exists = false;
+                for (Player player : playerOrder.getAllPlayersToArrayList()) {
+                    if (player.getName().equals(playerName)) {
+                        JOptionPane.showMessageDialog(null, "That player already exists!");
+                        exists = true;
+                        break;
+                    }
                 }
-                playerOrder.addPlayer(player);
 
+                if (!exists) {
+                    int choice = JOptionPane.showConfirmDialog(null, " is " + playerName + " an AI? ", "Player Type", JOptionPane.YES_NO_OPTION);
+
+                    boolean ai = (choice == JOptionPane.YES_OPTION);
+
+                    Player player;
+                    if (ai) {
+                        player = new AIPlayer(playerName + "(AI)");
+                    } else {
+                        player = new Player(playerName);
+                    }
+                    playerOrder.addPlayer(player);
+
+
+                }
 
             }
 
+            initScores();
         }
-
-        initScores();
     }
 
     /**
@@ -506,30 +527,23 @@ public class GameLogicModel {
     public boolean tryPlayCard(Card card) {
         Card top = getTopCard();
 
-        // 1. Check play validity
         if (!card.playCardOnAnother(top)) return false;
 
         // Remember who is playing this card
         Player originalPlayer = getCurrentPlayer();
 
-        // 2. Remove from hand + place on discard
         originalPlayer.getHand().remove(card);
         discardPile.add(0, card);
 
-        // 3. Apply special effects (may advance to another player)
         applyCardEffect(card);
 
-        // 4. If the original player emptied their hand, end the round
         if (originalPlayer.getHand().isEmpty()) {
             awardRoundPointsTo(originalPlayer);
         }
 
-        // 5. Set turnCompleted based on whose turn it is now
         if (getCurrentPlayer() == originalPlayer) {
-            // They played a normal card and it's still their turn (i.e., waiting for "Next Player")
             setTurnCompleted(true);
         } else {
-            // A special card (SKIP, DRAW, REVERSE, FLIP, etc.) advanced the turn.
             // The new current player is just starting their turn.
             setTurnCompleted(false);
         }
@@ -754,28 +768,8 @@ public class GameLogicModel {
         return playerOrder;
     }
 
-    //SAVING SNAP SHOTS BUT ALSO ITS IMPLEMENTED IN A SEPERATE CLASS BECAUSE THIS MODEL IS GETTING WAY TOO LONG
-    private UNOGameStateSnapShot createUNOGameStateSnapShot(){
-        return new UNOGameStateSnapShot(playerOrder.getAllPlayersToArrayList(), new ArrayList<Card>(drawPile), new ArrayList<Card>(discardPile), lightMode, playerOrder.getCurrentPlayer(), getDirection());
-    }
-    //SAVING THE SNAPSHOT
-    public void saveSnateSnapShot(){
-        undoStateSnapShot.push(createUNOGameStateSnapShot());
-        redoStateSnapShot.clear();
-    }
-
-    public void restoreStateSnapShot(UNOGameStateSnapShot restoredSnapShot){
-        //setPlayerOrder(restoredSnapShot);
-        //drawPile = restoredSnapShot.drawpile
-        //discardPile = restoredSnapShot
-        lightMode = restoredSnapShot.lightMode;
-        //direction = restoredSnapShot.directino
-        //playerOrder.setCurrentPlayer(restoredSnapShot.player)
-    }
-
 
     //RESETTING THE GAME AND STUFF
-
     public void resetRound(){
         drawPile.clear();
         discardPile.clear();
@@ -855,6 +849,65 @@ public class GameLogicModel {
         startGame();
         //forceLightMode(true);
     }
+
+    private void restoreState(UNOGameStateSnapShot state) {
+        // 1) Restore player order
+        PlayerOrder newOrder = new PlayerOrder();
+        for (Player p : state.playersInOrder) {
+            newOrder.addPlayer(p); // add existing Player objects
+        }
+        // Set the current player
+        if (!state.playersInOrder.isEmpty() && state.currentPlayerIndex >= 0) {
+            newOrder.setCurrentPlayer(state.playersInOrder.get(state.currentPlayerIndex));
+        }
+        this.playerOrder = newOrder;
+
+        // 2) Restore draw and discard piles
+        this.drawPile.clear();
+        this.drawPile.addAll(state.drawPile);
+
+        this.discardPile.clear();
+        this.discardPile.addAll(state.discardPile);
+
+        // 3) Restore scores
+        this.scores.clear();
+        for (Player p : playerOrder.getAllPlayersToArrayList()) {
+            this.scores.put(p, state.scores.getOrDefault(p, 0));
+        }
+
+        // 4) Restore other game states
+        this.lightMode = state.lightMode;
+        this.direction = state.direction;
+        this.roundEnded = state.roundEnded;
+    }
+
+    // Save the current game state as a snapshot
+    public void saveState() {
+        UNOGameStateSnapShot snapshot = new UNOGameStateSnapShot(this);
+        undoStateSnapShot.push(snapshot);
+
+        // Limit undo history to 10 snapshots
+        if (undoStateSnapShot.size() > 10) {
+            undoStateSnapShot.removeLast();
+        }
+
+        // Clear redo stack when saving a new state
+        redoStateSnapShot.clear();
+    }
+
+    // Load a previously saved game state snapshot
+    public void loadFromSavedState(UNOGameStateSnapShot state) {
+        if (!undoStateSnapShot.isEmpty()) {
+            state = undoStateSnapShot.pop();
+            restoreState(state);
+
+            // Push the loaded snapshot onto redo stack in case we want to "redo"
+            redoStateSnapShot.push(state);
+        } else {
+            JOptionPane.showMessageDialog(null, "No saved game state to load!");
+        }
+    }
+
 
 
 }
