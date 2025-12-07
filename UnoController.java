@@ -52,6 +52,8 @@ public class UnoController implements ActionListener, Serializable {
         updateView();
         handleAITurnIfCurrent();
 
+        model.playUNOBackgroundMusic("background_sound.wav");
+
         viewFrame.saveItem.addActionListener(this);
         viewFrame.loadItem.addActionListener(this);
 

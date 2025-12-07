@@ -25,6 +25,7 @@ public class GameLogicModel implements Serializable {
     private boolean turnCompleted = false;
     private int numPlayers = 0;
     public boolean lightMode = true;
+    private AudioPlayer audioPlayer;
 
     //for the SAVING SNAP SHOT (working on this)
     private Deque<UNOGameStateSnapShot> undoStateSnapShot;
@@ -906,6 +907,20 @@ public class GameLogicModel implements Serializable {
         } else {
             JOptionPane.showMessageDialog(null, "No saved game state to load!");
         }
+    }
+
+    // GET THE AUDI FROM THE AUDIO PLAYER CLASS INOT THE GAME MODEL
+    //SEPERATED FOR CLEANER CLASSES BUT BORUGHT HERE CUZ THE MODEL HAS ALL THE GAME LOGIC
+    public void playCardSound(String fileName){
+        audioPlayer.playAudio(fileName);
+    }
+
+    public void playUNOBackgroundMusic(String fileName){
+        audioPlayer.startBackGroundMusic(fileName);
+    }
+
+    public void endUNOBackgroundMusic(String fielName){
+        audioPlayer.stopBackGroundMusic(fielName);
     }
 
 
