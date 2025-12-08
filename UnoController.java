@@ -210,6 +210,7 @@ public class UnoController implements ActionListener, Serializable {
             if (model.getCurrentPlayer().getHand().size() == 1 && !model.getCurrentPlayer().UNOClicked) {
                 JOptionPane.showMessageDialog(null,
                         "You had 'UNO' card and didn't click UNO before ending your turn! draw 2 cards ! :P");
+                model.playCardSound("UNO_sound.wav");
                 onDrawClicked();
                 onDrawClicked();
             }

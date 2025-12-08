@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="413c9b79-5a63-4534-99a5-f5076c31e798" name="Changes" comment="adding sound" />
+    <list default="true" id="413c9b79-5a63-4534-99a5-f5076c31e798" name="Changes" comment="added another sound" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -106,7 +106,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765152750134</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added another sound">
+      <option name="closed" value="true" />
+      <created>1765153639734</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1765153639734</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -114,6 +122,7 @@
     <MESSAGE value="testing to see if the backghorund music workds" />
     <MESSAGE value="bruhhh im dyig cryyyy loll pls play it" />
     <MESSAGE value="adding sound" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding sound" />
+    <MESSAGE value="added another sound" />
+    <option name="LAST_COMMIT_MESSAGE" value="added another sound" />
   </component>
 </project>
