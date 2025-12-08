@@ -28,6 +28,7 @@ A custom BackgroundPanel class renders the background image behind all UI compon
 The DRAW and UNO buttons were replaced with custom JPG icons and scaled to fit the game layout
 
 Contributions:
+
 ```Charis Nobossi```:  Added the BackgroundPanel class, implemented the background image, added custom images for the DRAW and UNO buttons, and applied semi-transparent UI styling for enhanced visuals
 BACKGROUND IMAGE
 DRAW BUTTON IMAGE
