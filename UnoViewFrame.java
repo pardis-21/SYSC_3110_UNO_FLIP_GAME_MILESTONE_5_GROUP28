@@ -67,15 +67,18 @@ public class UnoViewFrame extends JFrame implements Serializable {
      * @param model the model managing the game logic
      */
     public UnoViewFrame(GameLogicModel model){
+
         super("Uno");
         this.model = model;
         controller = new UnoController(model);
         this.playerCardButtons = new ArrayList<>();
-        //playerNames = new ArrayList<>();
+        // Create a background panel and set it as the content pane
+        BackgroundPanel backgroundPanel = new BackgroundPanel();
+        setContentPane(backgroundPanel);
+        backgroundPanel.setLayout(new BorderLayout());
 
 
         //FRAME PROPERTIES
-        getContentPane().setBackground(new Color(30, 120,60));
         setTitle("UNO FLIP - MILESTONE 4");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,6 +93,21 @@ public class UnoViewFrame extends JFrame implements Serializable {
         drawPile = new JButton("DRAW"); //pile to take a card
         UNOButton = new JButton("UNO"); // when player has one card, button shows
         nextPlayerButton = new JButton("NEXT PLAYER");
+
+        nextPlayerButton.setContentAreaFilled(false);
+        nextPlayerButton.setOpaque(false);
+        nextPlayerButton.setFocusPainted(false);
+        nextPlayerButton.setBackground(new Color(255, 255, 255, 120));
+
+
+
+        cardPanel.setOpaque(false);
+        decksPanel.setOpaque(false);
+        topPanel.setOpaque(false);
+        roundPanel.setOpaque(false);
+        currentPlayerPanel.setOpaque(false);
+        scorePanel.setOpaque(false);
+
 
 
         // SETTING UP NEW CARD BUTTON
@@ -139,7 +157,7 @@ public class UnoViewFrame extends JFrame implements Serializable {
 
         //ADDING UNDO AND REDO BUTTONS TO THE FRAME
         undoredoPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
-        //undoredoPanel.setOpaque(false);
+        undoredoPanel.setOpaque(false);
 
         undoredoPanel.add(undoButton);
         undoredoPanel.add(redoButton);
@@ -209,6 +227,26 @@ public class UnoViewFrame extends JFrame implements Serializable {
        UNOButton.setFont(new Font("Arial", Font.BOLD, 18));
        UNOButton.setPreferredSize(new Dimension(150, 150));
 
+        // === IMAGE BUTTONS FOR DRAW + UNO ===
+
+// DRAW image
+        ImageIcon drawIcon = new ImageIcon(getClass().getResource("drawbtn.jpg"));
+        Image drawImg = drawIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        drawPile.setIcon(new ImageIcon(drawImg));
+        drawPile.setText("");
+        drawPile.setContentAreaFilled(false);
+        drawPile.setBorderPainted(false);
+        drawPile.setFocusPainted(false);
+        drawPile.setOpaque(false);
+
+        ImageIcon unoIcon = new ImageIcon(getClass().getResource("unobtn.jpg"));
+        Image unoImg = unoIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        UNOButton.setIcon(new ImageIcon(unoImg));
+        UNOButton.setText("");
+        UNOButton.setContentAreaFilled(false);
+        UNOButton.setBorderPainted(false);
+        UNOButton.setFocusPainted(false);
+        UNOButton.setOpaque(false);
 
         // ADDING LAYOUT
         setLayout(new BorderLayout());

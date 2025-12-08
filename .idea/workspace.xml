@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="413c9b79-5a63-4534-99a5-f5076c31e798" name="Changes" comment="added another sound">
-      <change beforePath="$PROJECT_DIR$/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buzzer_sound.mp3" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackgroundPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/drawbtn.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unobackground.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/unobtn.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnoViewFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/UnoViewFrame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,21 +27,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "pardis-21"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;pardis-21&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
-    "url": "https://github.com/pardis-21/SYSC_3110_UNO_FLIP_GAME_MILESTONE_5_GROUP28.git",
-    "accountId": "fd551126-3576-44f4-a010-6e91c5901f4a"
+    "url": "https://github.com/pardis-21/SYSC_3110_UNO_FLIP_GAME_MILESTONE_5_GROUP28",
+    "accountId": "1d4b39c1-fdfa-40ef-b9b2-163a992edf63"
   }
 }]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="36XLnQVjKGyFR8V7LmUfJnkvyxR" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -57,17 +61,16 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/charisnobossi/IdeaProjects/SYSC_3110_UNO_FLIP_GAME_MILESTONE_5_GROUP28",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.3236607"
   }
 }]]></component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7" />
-      </set>
-    </attachedChunks>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
