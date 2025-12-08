@@ -23,6 +23,8 @@ FEATURE 7- Student-Designed Features
 
 Sound effects were added for playing the game (different effects for different scenarios: wrong card/uno card/flip/wrong move etc and Coconut Mall as background music that loops the entire game :) )
 
+ALL COPYRIGHT SOUNDS TO THEIR RESPECTFUL OWNERS
+
 How it works:
 - When a Card is clicked, a sound plays
 - Background music starts when the view is loaded (GUI is loaded) to loop forever
