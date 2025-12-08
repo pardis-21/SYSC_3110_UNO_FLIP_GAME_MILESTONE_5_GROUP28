@@ -4,6 +4,11 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 
+/**
+ * This class is to manage all the sounds that the UNO Game would have
+ *
+ *  @Author Pardis Ehsani 101300400
+ */
 
 public class AudioPlayer {
     private static Clip backgroundSound;

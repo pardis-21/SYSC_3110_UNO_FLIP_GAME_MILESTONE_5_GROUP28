@@ -51,7 +51,6 @@ public class UnoController implements ActionListener, Serializable {
         model.startGame();
         updateView();
         handleAITurnIfCurrent();
-
         model.playUNOBackgroundMusic("background_sound.wav");
 
         viewFrame.saveItem.addActionListener(this);
@@ -97,6 +96,7 @@ public class UnoController implements ActionListener, Serializable {
 
         if(model.getCurrentPlayer().getHand().isEmpty()){
             int points = model.awardRoundPointsTo(model.getCurrentPlayer());
+            model.endUNOBackgroundMusic("background_sound.wav");
             model.playCardSound("victoryPlayer_sound.wav");
 
             JOptionPane.showMessageDialog(null, "Player: " + model.getCurrentPlayer().getName() + " wins the round with: " + points + " points!!" +

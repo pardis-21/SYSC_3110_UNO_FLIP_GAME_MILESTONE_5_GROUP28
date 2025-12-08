@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="413c9b79-5a63-4534-99a5-f5076c31e798" name="Changes" comment="bruhhh im dyig cryyyy loll pls play it">
-      <change beforePath="$PROJECT_DIR$/UnoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/UnoController.java" afterDir="false" />
-    </list>
+    <list default="true" id="413c9b79-5a63-4534-99a5-f5076c31e798" name="Changes" comment="adding sound" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -100,13 +98,22 @@
       <option name="project" value="LOCAL" />
       <updated>1765152103850</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="adding sound">
+      <option name="closed" value="true" />
+      <created>1765152750134</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1765152750134</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="adding sound files" />
     <MESSAGE value="testing to see if the backghorund music workds" />
     <MESSAGE value="bruhhh im dyig cryyyy loll pls play it" />
-    <option name="LAST_COMMIT_MESSAGE" value="bruhhh im dyig cryyyy loll pls play it" />
+    <MESSAGE value="adding sound" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding sound" />
   </component>
 </project>
