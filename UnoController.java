@@ -86,13 +86,10 @@ public class UnoController implements ActionListener, Serializable {
         if (!success) {
 
             model.playCardSound("buzzerWrong_sound.wav");
-            viewFrame.showMessage(
-
-                    "You cannot play " + heldCard + " on " + model.getTopCard()
-            );
-
+            viewFrame.showMessage("You cannot play " + heldCard + " on " + model.getTopCard());
             return;
         }
+
 
         commandManager.push(new PlayerCardCommand(model, model.getCurrentPlayer(), heldCard, previousTopCard));
         updateView();
@@ -100,6 +97,8 @@ public class UnoController implements ActionListener, Serializable {
 
         if(model.getCurrentPlayer().getHand().isEmpty()){
             int points = model.awardRoundPointsTo(model.getCurrentPlayer());
+            model.playCardSound("victoryPlayer_sound.wav");
+
             JOptionPane.showMessageDialog(null, "Player: " + model.getCurrentPlayer().getName() + " wins the round with: " + points + " points!!" +
                     "\n + Total Points: " + model.scores.get(model.getCurrentPlayer()) + "\n Round Over!");
 
@@ -224,24 +223,21 @@ public class UnoController implements ActionListener, Serializable {
             handleAITurnIfCurrent();
         } else if (source == viewFrame.UNOButton) {
             if (!(model.getCurrentPlayer().getHand().size() == 1)) {
+                model.playCardSound("unoWrong_sound.wav");
                 JOptionPane.showMessageDialog(null, "Uh oh! You don't have 'uno' card! draw 2 :P");
                 onDrawClicked();
                 onDrawClicked();
                 model.setTurnCompleted(false);
             } else {
+                model.playCardSound("UNO_sound.wav");
                 JOptionPane.showMessageDialog(null, "UNOOOOO!!!");
                 model.getCurrentPlayer().UNOClicked = true;
             }
         }
         else if (source == viewFrame.undoButton) {
-            // TESTING SOMETHING OUT
+
             if (commandManager.isUndoable()){
                 commandManager.undo();
-
-                //viewFrame.updateHand(model.getPlayerHand());
-                //viewFrame.updateTopCard(model.getTopCard());
-                //viewFrame.repaint();
-                //viewFrame.revalidate();
 
                 updateView();
                 model.setTurnCompleted(false); //do not move to the next player
@@ -305,10 +301,7 @@ public class UnoController implements ActionListener, Serializable {
                 );
             }
         }
-
-
     }
-
 
     /**
      * Updates the view to reflect the current game state
@@ -351,9 +344,10 @@ public class UnoController implements ActionListener, Serializable {
         Player currentPlayer = model.getCurrentPlayer();
 
         if (currentPlayer instanceof AIPlayer) {
+            model.playCardSound("robotPlayer_sound.wav");
             //added a delay to really make it seem like you're playing against an AI model
                try {
-                   Thread.sleep(1500);
+                   Thread.sleep(2500);
                } catch (InterruptedException e) {
                    Thread.currentThread().interrupt();
                }
