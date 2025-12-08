@@ -18,7 +18,7 @@ This is the double-sided version of UNO (Light side → Dark side) with all the 
    java -cp out Game
    ```
 
-## Milestone 5 - BONUS FEATURES: SOUND EFFECTS + BACKGROUND MUSIC
+## SYSC 3110 Milestone 5 - BONUS FEATURES: SOUND EFFECTS + BACKGROUND MUSIC
 FEATURE 7- Student-Designed Features
 
 Sound effects were added for playing the game (different effects for different scenarios: wrong card/uno card/flip/wrong move etc and Coconut Mall as background music that loops the entire game :) )
@@ -41,7 +41,7 @@ Contributions:
 
 Sounds can be found in the root of the project
 
-SYSC 3110 Project Overview Milestone 4 UNO: 
+## SYSC 3110 Project Overview Milestone 4 UNO: 
 
 For Milestone 4, we added the required features to complete the UNO Flip game: undo/redo, replay functionality, and save/load support using Java Serialization. We also updated the UML diagrams and added new test cases to validate the new features.
 What Was Added
