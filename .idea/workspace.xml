@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="413c9b79-5a63-4534-99a5-f5076c31e798" name="Changes" comment="adding sound files">
-      <change beforePath="$PROJECT_DIR$/AudioPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/AudioPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameLogicModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/GameLogicModel.java" afterDir="false" />
+    <list default="true" id="413c9b79-5a63-4534-99a5-f5076c31e798" name="Changes" comment="testing to see if the backghorund music workds">
       <change beforePath="$PROJECT_DIR$/UnoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/UnoController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,11 +84,20 @@
       <option name="project" value="LOCAL" />
       <updated>1765149674834</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="testing to see if the backghorund music workds">
+      <option name="closed" value="true" />
+      <created>1765151410533</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1765151410533</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="adding sound files" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding sound files" />
+    <MESSAGE value="testing to see if the backghorund music workds" />
+    <option name="LAST_COMMIT_MESSAGE" value="testing to see if the backghorund music workds" />
   </component>
 </project>

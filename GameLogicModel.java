@@ -38,6 +38,10 @@ public class GameLogicModel implements Serializable {
      *
      */
     public GameLogicModel() {
+        //audi player
+
+        this.audioPlayer = new AudioPlayer();
+
         //saving snap shot
         this.redoStateSnapShot = new ArrayDeque<>();
         this.undoStateSnapShot = new ArrayDeque<>();

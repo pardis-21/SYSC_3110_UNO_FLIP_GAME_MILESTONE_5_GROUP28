@@ -84,9 +84,13 @@ public class UnoController implements ActionListener, Serializable {
 
         boolean success = model.tryPlayCard(heldCard);
         if (!success) {
+
+            model.playCardSound("buzzerWrong_sound.wav");
             viewFrame.showMessage(
+
                     "You cannot play " + heldCard + " on " + model.getTopCard()
             );
+
             return;
         }
 
